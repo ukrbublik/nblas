@@ -312,5 +312,15 @@
       nblas.strsm(side, uplo, transa, diag, m, n, alpha, a, m, b, m);
   };
 
+  //LAPACK
+  //http://physics.oregonstate.edu/~landaur/nacphy/lapack/simple.html
+
+  // A [m,m] * x [m,n] = B [m,n]
+  nblas.gesv = function (a, b, m, n) {
+    return typeCheck(a) ?
+      nblas.dgesv(m, n, a, b) :
+      nblas.sgesv(m, n, a, b);
+  };
+
   module.exports = nblas;
 }());

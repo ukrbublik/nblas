@@ -277,4 +277,85 @@
   describe('?trsm', function () {
     // solves a triangular matrix equation
   });
+
+  describe('?gesv', function () {
+    // solves for X the system of linear equations A*X = B, where A is an n-by-n matrix
+    it('works for 2x2 * 2x2', function () {
+      // a is 2x2 matrix
+      var a = new Float64Array([
+        1, 2,
+        3, 4
+        //1, 3, 2, 4
+      ]);
+
+      // x is 2x2 matrix, shape same as b
+      var x = new Float64Array([
+        5, 6,
+        7, 8
+        //5, 7, 6, 8
+      ]);
+
+      // b is 2x2 matrix
+      var b = new Float64Array([
+        19, 22,
+        43, 50
+        //19, 43, 22, 50
+      ]);
+
+      var res = nblas.gesv(a, b, 2, 2);
+      assert.equal(res, 0);
+      b = b.map(el => el.toFixed(2) );
+      assert.deepEqual(b, x);
+    });
+
+    it('works for 2x2 * 1x2', function () {
+      var a = new Float64Array([
+        3, 1,
+        1, 2
+      ]);
+
+      var x = new Float64Array([
+        2, 3,
+      ]);
+
+      var b = new Float64Array([
+        9, 8,
+      ]);
+
+      var res = nblas.gesv(a, b, 2, 1);
+      assert.equal(res, 0);
+      b = b.map(el => el.toFixed(2) );
+      assert.deepEqual(b, x);
+    });
+
+    it('works for 5x5 * 5x3', function () {
+      var a = new Float64Array([
+        6.80,   -6.05,  -0.45,   8.32,  -9.67, 
+        -2.11,  -3.30,   2.58,   2.71,  -5.14, 
+        5.66,    5.36,  -2.70,   4.35,  -7.26,
+        5.97,   -4.44,   0.27,  -7.17,   6.08,
+        8.23,    1.08,   9.04,   2.14,  -6.87
+      ]);
+      var b = new Float64Array([
+        4.02,   -1.56,   9.81,
+        6.19,    4.00,  -4.09,
+        -8.22,  -8.67,  -4.57,
+        -7.57,   1.75,  -8.61,
+        -3.03,   2.86,   8.99
+      ]);
+      var x = new Float64Array([
+        -0.80,  -0.39,   0.96,
+        -0.70,  -0.55,   0.22,
+        0.59,    0.84,   1.90,
+        1.32,   -0.10,   5.36,
+        0.57,    0.11,   4.04
+      ]);
+
+      var res = nblas.gesv(a, b, 5, 3);
+      assert.equal(res, 0);
+      b = b.map(el => el.toFixed(2) );
+      assert.deepEqual(b, x);
+    });
+
+  });
 }());

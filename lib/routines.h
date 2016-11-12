@@ -79,4 +79,7 @@ void strmm(const v8::FunctionCallbackInfo<v8::Value>& info);
 void dtrsm(const v8::FunctionCallbackInfo<v8::Value>& info);
 void strsm(const v8::FunctionCallbackInfo<v8::Value>& info);
 
+void dgesv(const v8::FunctionCallbackInfo<v8::Value>& info);
+void sgesv(const v8::FunctionCallbackInfo<v8::Value>& info);
+
 #endif

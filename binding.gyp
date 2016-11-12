@@ -38,13 +38,14 @@
         "routines/level3/syrk.cc",
         "routines/level3/syr2k.cc",
         "routines/level3/trmm.cc",
-        "routines/level3/trsm.cc"
+        "routines/level3/trsm.cc",
+        "routines/lapack/gesv.cc"
       ],
       "include_dirs" : [
         "lib"
       ],
       "libraries": [
-        "-lblas"
+        "-lblas -llapack -llapacke"
       ]
     }
   ]

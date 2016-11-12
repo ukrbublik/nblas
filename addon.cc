@@ -74,6 +74,9 @@ void Init(v8::Local<v8::Object> exports) {
   NODE_SET_METHOD(exports, "strmm", strmm);
   NODE_SET_METHOD(exports, "dtrsm", dtrsm);
   NODE_SET_METHOD(exports, "strsm", strsm);
+
+  NODE_SET_METHOD(exports, "dgesv", dgesv);
+  NODE_SET_METHOD(exports, "sgesv", sgesv);
 }
 
 NODE_MODULE(addon, Init)
