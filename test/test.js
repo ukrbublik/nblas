@@ -4,6 +4,9 @@
   var assert = require('assert'),
       nblas = require('../addon');
 
+  //
+  // BLAS
+  //
   describe('?asum', function () {
     it('works for different sizes', function () {
       assert.equal(6, nblas.asum(new Float64Array([1, 2, 3])));
@@ -279,6 +282,9 @@
   });
 
 
+  //
+  // LAPACK
+  //
   describe('?gesv', function () {
     // solves for X the system of linear equations A*X = B, where A is an n-by-n matrix
     it('works for 2x2 * 2x2', function () {
@@ -361,19 +367,149 @@
   });
 
 
+  //
+  // SPBLAS
+  //
   describe('?uscr_*, usds, usgp', function () {
     // sparse construction
-    it('sparse creation works', function () {
+    it('sparse matrix creation one-by-one works', function () {
       var double = true;
       var A = nblas.uscr_begin(double, 5, 3);
-      nblas.uscr_insert_entry(double, A, 1.1, 0, 0);
-      nblas.uscr_insert_entry(double, A, 2.2, 2, 1);
-      nblas.uscr_insert_entry(double, A, 3.3, 2, 2);
-      nblas.uscr_insert_entry(double, A, 4.4, 4, 2);
-      nblas.uscr_end(double, A);
+      nblas.uscr_insert_entry(A, 1.1, 0, 0);
+      nblas.uscr_insert_entry(A, 2.2, 2, 1);
+      nblas.uscr_insert_entry(A, 3.3, 2, 2);
+      nblas.uscr_insert_entry(A, 4.4, 4, 2);
+      nblas.uscr_end(A);
       assert.equal(nblas.usgp(A, nblas.SizeType.blas_num_nonzeros), 4);
       nblas.usds(A);
     });
   });
+
+  describe('?usdot', function () {
+    // sparse vector dot product
+    it('sparse vector dot product works for 1x5', function () {
+      //(0,2,0,0,4)
+      var x = new Float64Array([2, 4]);
+      var indx = new Int32Array([1, 4]);
+      var y = new Float64Array([1, 2, 3, 4, 5]);
+      var res = nblas.usdot(x, indx, y);
+      assert.equal(res, 24);
+    });
+  });
+
+  describe('?usaxpy', function () {
+    // sparse vector update
+    it('sparse vector update works for 1x5', function () {
+      //(0,2,0,0,4)
+      var x = new Float64Array([2, 4]);
+      var indx = new Int32Array([1, 4]);
+      var y = new Float64Array([1, 2, 3, 4, 5]);
+      var alpha = 2;
+      var ans = new Float64Array([1, 6, 3, 4, 13]);
+      nblas.usaxpy(x, indx, y, alpha);
+      assert.deepEqual(y, ans);
+    });
+  });
+
+  describe('?usga, ?usgz, ?ussc', function () {
+    // sparse vector gather
+    it('sparse vector gather works for 1x6', function () {
+      var x = new Float64Array(2);
+      var indx = new Int32Array([1, 4]);
+      var y = new Float64Array([0, 2, 0, 0, 4, 0]);
+      var ans = new Float64Array([2, 4]);
+      nblas.usga(x, indx, y);
+      assert.deepEqual(x, ans);
+    });
+
+    it('sparse vector gather and zero works for 1x6', function () {
+      // sparse vector gather and zero
+      var x = new Float64Array(2);
+      var indx = new Int32Array([1, 4]);
+      var y = new Float64Array([0, 2, 0, 0, 4, 0]);
+      var ans_x = new Float64Array([2, 4]);
+      var ans_y = new Float64Array([0, 0, 0, 0, 0, 0]);
+      nblas.usgz(x, indx, y);
+      assert.deepEqual(x, ans_x);
+      assert.deepEqual(y, ans_y);
+    });
+
+    it('sparse vector scatter works for 1x6', function () {
+      // sparse vector scatter
+      var x = new Float64Array([2, 4]);
+      var indx = new Int32Array([1, 4]);
+      var y = new Float64Array(6);
+      var ans = new Float64Array([0, 2, 0, 0, 4, 0]);
+      nblas.ussc(x, indx, y);
+      assert.deepEqual(y, ans);
+    });
+  });
+
+  describe('?usmv', function () {
+    // sparse matrix-vector multiply
+    it('works for 5x3 * 3x1', function () {
+      var double = true;
+      var A = nblas.uscr_begin(double, 5, 3);
+      nblas.uscr_insert_entry(A, 1.1, 0, 0);
+      nblas.uscr_insert_entry(A, 2.2, 2, 1);
+      nblas.uscr_insert_entry(A, 3.3, 2, 2);
+      nblas.uscr_insert_entry(A, 4.4, 4, 2);
+      nblas.uscr_end(A);
+      var x = new Float64Array([
+        2, 3, 4
+      ]);
+      var y = new Float64Array(5);
+      var ans = new Float64Array([
+        2.2, 0, 19.8, 0, 17.6
+      ]);
+      var res = nblas.usmv(A, x, y);
+      assert.equal(res, 0);
+      y = y.map(el => el.toFixed(2) );
+      assert.deepEqual(y, ans);
+      nblas.usds(A);
+    });
+  });
+
+  describe('?ussv', function () {
+    // sparse triangular solve 
+  });
+
+  describe('?usmm', function () {
+    // sparse matrix-matrix multiply
+    it('works for 5x4 * 4x3', function () {
+      var double = true;
+      var A = nblas.uscr_begin(double, 5, 4);
+      nblas.uscr_insert_entry(A, 31.1, 0, 1);
+      nblas.uscr_insert_entry(A, 42.2, 2, 1);
+      nblas.uscr_insert_entry(A, 63.3, 3, 0);
+      nblas.uscr_insert_entry(A, 74.4, 4, 2);
+      nblas.uscr_insert_entry(A, 4.8, 1, 3);
+      nblas.uscr_end(A);
+      var B = new Float64Array([
+        13.4, 45.2, 82.2,
+        61.2, 25.6, 85.7,
+        25.9, 46.5, 13.6,
+        16.0, 84.3, 2.2
+      ]);
+      var C = new Float64Array(5*3);
+      var ans = new Float64Array([
+        1903.32, 796.16,  2665.27,
+        76.8,  404.64,  10.56,
+        2582.64, 1080.32, 3616.54,
+        848.22,  2861.16, 5203.26,
+        1926.96, 3459.6,  1011.84
+      ]);
+      var res = nblas.usmm(A, B, C, 3);
+      assert.equal(res, 0);
+      C = C.map(el => el.toFixed(2) );
+      assert.deepEqual(C, ans);
+      nblas.usds(A);
+    });
+  });
+
+  describe('?ussm', function () {
+    // sparse triangular solve 
+  });
+
 
 }());

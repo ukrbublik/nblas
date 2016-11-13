@@ -113,12 +113,28 @@ void _usgp(const v8::FunctionCallbackInfo<v8::Value>& info);
 void _ussp(const v8::FunctionCallbackInfo<v8::Value>& info);
 void _usds(const v8::FunctionCallbackInfo<v8::Value>& info);
 
-
-
 // SPBLAS Level 1
+void dusdot(const v8::FunctionCallbackInfo<v8::Value>& info);
+void susdot(const v8::FunctionCallbackInfo<v8::Value>& info);
+void dusaxpy(const v8::FunctionCallbackInfo<v8::Value>& info);
+void susaxpy(const v8::FunctionCallbackInfo<v8::Value>& info);
+void dusga(const v8::FunctionCallbackInfo<v8::Value>& info);
+void susga(const v8::FunctionCallbackInfo<v8::Value>& info);
+void dusgz(const v8::FunctionCallbackInfo<v8::Value>& info);
+void susgz(const v8::FunctionCallbackInfo<v8::Value>& info);
+void dussc(const v8::FunctionCallbackInfo<v8::Value>& info);
+void sussc(const v8::FunctionCallbackInfo<v8::Value>& info);
 
 // SPBLAS Level 2
+void dusmv(const v8::FunctionCallbackInfo<v8::Value>& info);
+void susmv(const v8::FunctionCallbackInfo<v8::Value>& info);
+void dussv(const v8::FunctionCallbackInfo<v8::Value>& info);
+void sussv(const v8::FunctionCallbackInfo<v8::Value>& info);
 
 // SPBLAS Level 3
+void dussm(const v8::FunctionCallbackInfo<v8::Value>& info);
+void sussm(const v8::FunctionCallbackInfo<v8::Value>& info);
+void dusmm(const v8::FunctionCallbackInfo<v8::Value>& info);
+void susmm(const v8::FunctionCallbackInfo<v8::Value>& info);
 
 #endif

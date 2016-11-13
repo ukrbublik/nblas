@@ -2,6 +2,7 @@
   'use strict';
 
   var nblas = require('./build/Release/addon');
+  var assert = require('assert');
 
   // from enums declared in functions/cblas.h
   nblas.NoTrans = 111;
@@ -352,10 +353,12 @@
   // https://software.intel.com/ru-ru/node/468874
 
   // A [m,m] * x [m,n] = B [m,n]
-  nblas.gesv = function (a, b, m, n) {
-    return typeCheck(a) ?
-      nblas.dgesv(m, n, a, b) :
-      nblas.sgesv(m, n, a, b);
+  nblas.gesv = function (A, B, m, n) {
+    assert(A.length >= m*m);
+    assert(B.length >= m*n);
+    return typeCheck(A) ?
+      nblas.dgesv(m, n, A, B) :
+      nblas.sgesv(m, n, A, B);
   };
 
   // SPBLAS
@@ -386,7 +389,8 @@
       nblas.suscr_variable_block_begin(Mb, Nb, K, L);
   };
   // Insertion
-  nblas.uscr_insert_entry = function(double, A, val, i, j) {
+  nblas.uscr_insert_entry = function(A, val, i, j) {
+    var double = nblas.usgp(A, nblas.FieldType.blas_double_precision);
     return double ?
       nblas.duscr_insert_entry(A, val, i, j) :
       nblas.suscr_insert_entry(A, val, i, j);
@@ -417,7 +421,8 @@
       nblas.suscr_insert_block(A, vals, row_stride, col_stride, i, j);
   };
   // Completion of Construction Routines
-  nblas.uscr_end = function(double, A) {
+  nblas.uscr_end = function(A) {
+    var double = nblas.usgp(A, nblas.FieldType.blas_double_precision);
     return double ?
       nblas.duscr_end(A) :
       nblas.suscr_end(A);
@@ -425,6 +430,9 @@
   // Matrix Property Routines
   nblas.usgp = function(A, pname) {
     return nblas._usgp(A, pname);
+  };
+  nblas.ussp = function(A, pname) {
+    return nblas._ussp(A, pname);
   };
   // Destruction Routine
   nblas.usds = function(A) {
@@ -434,27 +442,95 @@
 
   // SPBLAS Level 1
   // sparse dot product 
-  //  usdot()
-  // sparse vector update 
-  //  usaxpy()
+  nblas.usdot = function(x, indx, y) {
+    var incy = 1;
+    return typeCheck(x) ?
+      nblas.dusdot(x.length, x, indx, y, incy) :
+      nblas.susdot(x.length, x, indx, y, incy);
+  };
+  // sparse vector update
+  nblas.usaxpy = function(x, indx, y, alpha) {
+    var incy = 1;
+    return typeCheck(x) ?
+      nblas.dusaxpy(x.length, alpha, x, indx, y, incy) :
+      nblas.susaxpy(x.length, alpha, x, indx, y, incy);
+  };
   // sparse gather
-  //  usga()
+  nblas.usga = function(x, indx, y) {
+    var incy = 1;
+    return typeCheck(x) ?
+      nblas.dusga(x.length, y, incy, x, indx) :
+      nblas.susga(x.length, y, incy, x, indx);
+  };
   // sparse gather and zero
-  //  usgz()
+  nblas.usgz = function(x, indx, y) {
+    var incy = 1;
+    return typeCheck(x) ?
+      nblas.dusgz(x.length, y, incy, x, indx) :
+      nblas.susgz(x.length, y, incy, x, indx);
+  };
   // sparse scatter
-  //  ussc()
+  nblas.ussc = function(x, indx, y) {
+    var incy = 1;
+    return typeCheck(x) ?
+      nblas.dussc(x.length, x, y, incy, indx) :
+      nblas.sussc(x.length, x, y, incy, indx);
+  };
+
 
   // SPBLAS Level 2
   // sparse matrix-vector multiply
-  //  usmv()
+  // A [m * n] * x [ n * 1 ] = y [ m * 1 ]
+  nblas.usmv = function (A, x, y, trans, alpha) {
+    trans = trans || nblas.NoTrans;
+    alpha = alpha || 1.0;
+    var incx = 1;
+    var incy = 1;
+    var m = nblas.usgp(A, nblas.SizeType.blas_num_rows);
+    var n = nblas.usgp(A, nblas.SizeType.blas_num_cols);
+    assert(x.length >= n);
+    assert(y.length >= m);
+    return typeCheck(x) ?
+      nblas.dusmv(trans, alpha, A, x, incx, y, incy) :
+      nblas.susmv(trans, alpha, A, x, incx, y, incy);
+  }
   // sparse triangular solve 
-  //  ussv()
+  nblas.ussv = function (A, x, trans, alpha) {
+    trans = trans || nblas.NoTrans;
+    alpha = alpha || 1.0;
+    var incx = 1;
+    var m = nblas.usgp(A, nblas.SizeType.blas_num_rows);
+    var n = nblas.usgp(A, nblas.SizeType.blas_num_cols);
+    assert(x.length >= n);
+    return typeCheck(x) ?
+      nblas.dussv(trans, alpha, A, x, incx) :
+      nblas.sussv(trans, alpha, A, x, incx);
+  }
 
   // SPBLAS Level 3
   // sparse matrix-matrix multiply
-  //  usmm() ------
+  nblas.usmm = function(A, B, C, nrhs, trans, alpha) {
+    trans = trans || nblas.NoTrans;
+    alpha = alpha || 1.0;
+    var m = nblas.usgp(A, nblas.SizeType.blas_num_rows);
+    var n = nblas.usgp(A, nblas.SizeType.blas_num_cols);
+    assert(B.length >= n * nrhs);
+    assert(C.length >= m * nrhs);
+    return typeCheck(B) ?
+      nblas.dusmm(trans, nrhs, alpha, A, B, C) :
+      nblas.susmm(trans, nrhs, alpha, A, B, C);
+  };
   // sparse triangular solve
-  //  ussm()
+  nblas.ussm = function(A, B, nrhs, trans, alpha) {
+    trans = trans || nblas.NoTrans;
+    alpha = alpha || 1.0;
+    var m = nblas.usgp(A, nblas.SizeType.blas_num_rows);
+    var n = nblas.usgp(A, nblas.SizeType.blas_num_cols);
+    assert(B.length >= n * nrhs);
+    return typeCheck(B) ?
+      nblas.dussm(trans, nrhs, alpha, A, B) :
+      nblas.sussm(trans, nrhs, alpha, A, B);
+  };
 
   module.exports = nblas;
 }());

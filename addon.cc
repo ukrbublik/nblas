@@ -109,12 +109,30 @@ void Init(v8::Local<v8::Object> exports) {
   NODE_SET_METHOD(exports, "_ussp", _ussp);
   NODE_SET_METHOD(exports, "_usds", _usds);
 
-
   // SPBLAS Level 1
-  
+  NODE_SET_METHOD(exports, "dusdot", dusdot);
+  NODE_SET_METHOD(exports, "susdot", susdot);
+  NODE_SET_METHOD(exports, "dusaxpy", dusaxpy);
+  NODE_SET_METHOD(exports, "susaxpy", susaxpy);
+  NODE_SET_METHOD(exports, "dusga", dusga);
+  NODE_SET_METHOD(exports, "susga", susga);
+  NODE_SET_METHOD(exports, "dusgz", dusgz);
+  NODE_SET_METHOD(exports, "susgz", susgz);
+  NODE_SET_METHOD(exports, "dussc", dussc);
+  NODE_SET_METHOD(exports, "sussc", sussc);
+
   // SPBLAS Level 2
+  NODE_SET_METHOD(exports, "dusmv", dusmv);
+  NODE_SET_METHOD(exports, "susmv", susmv);
+  NODE_SET_METHOD(exports, "dussv", dussv);
+  NODE_SET_METHOD(exports, "sussv", sussv);
   
   // SPBLAS Level 3
+  NODE_SET_METHOD(exports, "dussm", dussm);
+  NODE_SET_METHOD(exports, "sussm", sussm);
+  NODE_SET_METHOD(exports, "dusmm", dusmm);
+  NODE_SET_METHOD(exports, "susmm", susmm);
+
 }
 
 NODE_MODULE(addon, Init)
