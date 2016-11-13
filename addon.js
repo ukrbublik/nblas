@@ -17,6 +17,38 @@
   nblas.Left = 141;
   nblas.Right = 142;
 
+  // from enums declared in lib/blas_enum.h
+  nblas.SymmetryType = {
+    blas_general          : 231,
+    blas_symmetric        : 232,
+    blas_hermitian        : 233,
+    blas_triangular       : 234,
+    blas_lower_triangular : 235,
+    blas_upper_triangular : 236,
+    blas_lower_symmetric  : 237,
+    blas_upper_symmetric  : 238,
+    blas_lower_hermitian  : 239,
+    blas_upper_hermitian  : 240
+  };
+  nblas.FieldType = {
+    blas_complex          : 241,
+    blas_real             : 242,
+    blas_double_precision : 243,
+    blas_single_precision : 244
+  };
+  nblas.SizeType = {
+    blas_num_rows      : 251,
+    blas_num_cols      : 252,
+    blas_num_nonzeros  : 253
+  };
+  nblas.HandleType = {
+    blas_invalid_handle : 261,
+    blas_new_handle     : 262,
+    blas_open_handle    : 263,
+    blas_valid_handle   : 264
+  };
+
+
   // enforce strict type checking
   function typeCheck(array) {
     if (array.constructor === Float64Array)
@@ -28,6 +60,7 @@
   }
 
   // BLAS Level 1 Routines and Functions
+  // https://software.intel.com/ru-ru/node/468390
   nblas.asum = function (x) {
     return typeCheck(x) ?
       nblas.dasum(x.length, x, 1) :
@@ -108,6 +141,7 @@
   };
 
   // BLAS Level 2 Routines
+  // https://software.intel.com/ru-ru/node/468426
   nblas.gbmv = function (a, x, y, kl, ku, alpha, beta, trans) {
     trans = trans || nblas.NoTrans;
     kl = kl || 0;
@@ -250,6 +284,7 @@
   };
 
   // BLAS Level 3 Routines
+  // https://software.intel.com/ru-ru/node/468478
   nblas.gemm = function (a, b, c, m, n, k, transa, transb, alpha, beta) {
     transa = transa || nblas.NoTrans;
     transb = transb || nblas.NoTrans;
@@ -312,8 +347,9 @@
       nblas.strsm(side, uplo, transa, diag, m, n, alpha, a, m, b, m);
   };
 
-  //LAPACK
-  //http://physics.oregonstate.edu/~landaur/nacphy/lapack/simple.html
+  // LAPACK
+  // http://physics.oregonstate.edu/~landaur/nacphy/lapack/simple.html
+  // https://software.intel.com/ru-ru/node/468874
 
   // A [m,m] * x [m,n] = B [m,n]
   nblas.gesv = function (a, b, m, n) {
@@ -321,6 +357,104 @@
       nblas.dgesv(m, n, a, b) :
       nblas.sgesv(m, n, a, b);
   };
+
+  // SPBLAS
+  // http://math.nist.gov/spblas/
+  // http://www.cerfacs.fr/algor/reports/2001/TR_PA_01_24.pdf
+  // http://www.netlib.org/blas/blast-forum/chapter3.pdf
+
+  // SPBLAS Creation
+  // Construction
+  nblas.uscr_begin = function(double, m, n) {
+    return double ?
+      nblas.duscr_begin(m, n) :
+      nblas.suscr_begin(m, n);
+  };
+  // Block construction
+  // Mb, Nb - blocks count, k, l = blocks size
+  // M = Mb * k, N = Nb * l
+  nblas.uscr_block_begin = function(double, Mb, Nb, k, l) {
+    return double ?
+      nblas.duscr_block_begin(Mb, Nb, k, l) :
+      nblas.suscr_block_begin(Mb, Nb, k, l);
+  };
+  // Variable block construction
+  // K - array of size Mb, L - array of size Nb
+  nblas.uscr_variable_block_begin = function(double, Mb, Nb, K, L) {
+    return double ?
+      nblas.duscr_variable_block_begin(Mb, Nb, K, L) :
+      nblas.suscr_variable_block_begin(Mb, Nb, K, L);
+  };
+  // Insertion
+  nblas.uscr_insert_entry = function(double, A, val, i, j) {
+    return double ?
+      nblas.duscr_insert_entry(A, val, i, j) :
+      nblas.suscr_insert_entry(A, val, i, j);
+  };
+  nblas.uscr_insert_entries = function(A, nz, vals, indx, jndx) {
+    return typeCheck(vals) ?
+      nblas.duscr_insert_entries(A, nz, vals, indx, jndx) :
+      nblas.suscr_insert_entries(A, nz, vals, indx, jndx);
+  };
+  nblas.uscr_insert_col = function(A, j, nz, vals, indx) {
+    return typeCheck(vals) ?
+      nblas.duscr_insert_col(A, j, nz, vals, indx) :
+      nblas.suscr_insert_col(A, j, nz, vals, indx);
+  };
+  nblas.uscr_insert_row = function(A, i, nz, vals, jndx) {
+    return typeCheck(vals) ?
+      nblas.duscr_insert_row(A, i, nz, vals, jndx) :
+      nblas.suscr_insert_row(A, i, nz, vals, jndx);
+  };
+  nblas.uscr_insert_clique = function(A, k, l, vals, row_stride, col_stride, indx, jndx) {
+    return typeCheck(vals) ?
+      nblas.duscr_insert_clique(A, k, l, vals, row_stride, col_stride, indx, jndx) :
+      nblas.suscr_insert_clique(A, k, l, vals, row_stride, col_stride, indx, jndx);
+  };
+  nblas.uscr_insert_block = function(A, vals, row_stride, col_stride, i, j) {
+    return typeCheck(vals) ?
+      nblas.duscr_insert_block(A, vals, row_stride, col_stride, i, j) :
+      nblas.suscr_insert_block(A, vals, row_stride, col_stride, i, j);
+  };
+  // Completion of Construction Routines
+  nblas.uscr_end = function(double, A) {
+    return double ?
+      nblas.duscr_end(A) :
+      nblas.suscr_end(A);
+  };
+  // Matrix Property Routines
+  nblas.usgp = function(A, pname) {
+    return nblas._usgp(A, pname);
+  };
+  // Destruction Routine
+  nblas.usds = function(A) {
+    return nblas._usds(A);
+  };
+
+
+  // SPBLAS Level 1
+  // sparse dot product 
+  //  usdot()
+  // sparse vector update 
+  //  usaxpy()
+  // sparse gather
+  //  usga()
+  // sparse gather and zero
+  //  usgz()
+  // sparse scatter
+  //  ussc()
+
+  // SPBLAS Level 2
+  // sparse matrix-vector multiply
+  //  usmv()
+  // sparse triangular solve 
+  //  ussv()
+
+  // SPBLAS Level 3
+  // sparse matrix-matrix multiply
+  //  usmm() ------
+  // sparse triangular solve
+  //  ussm()
 
   module.exports = nblas;
 }());

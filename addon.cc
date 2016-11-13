@@ -2,6 +2,7 @@
 #include "routines.h"
 
 void Init(v8::Local<v8::Object> exports) {
+  // BLAS Level 1
   NODE_SET_METHOD(exports, "dasum", dasum);
   NODE_SET_METHOD(exports, "sasum", sasum);
   NODE_SET_METHOD(exports, "daxpy", daxpy);
@@ -29,6 +30,7 @@ void Init(v8::Local<v8::Object> exports) {
   NODE_SET_METHOD(exports, "idamax", idamax);
   NODE_SET_METHOD(exports, "isamax", isamax);
 
+  // BLAS Level 2
   NODE_SET_METHOD(exports, "dgbmv", dgbmv);
   NODE_SET_METHOD(exports, "sgbmv", sgbmv);
   NODE_SET_METHOD(exports, "dgemv", dgemv);
@@ -62,6 +64,7 @@ void Init(v8::Local<v8::Object> exports) {
   NODE_SET_METHOD(exports, "dtrsv", dtrsv);
   NODE_SET_METHOD(exports, "strsv", strsv);
 
+  // BLAS Level 3
   NODE_SET_METHOD(exports, "dgemm", dgemm);
   NODE_SET_METHOD(exports, "sgemm", sgemm);
   NODE_SET_METHOD(exports, "dsymm", dsymm);
@@ -75,8 +78,43 @@ void Init(v8::Local<v8::Object> exports) {
   NODE_SET_METHOD(exports, "dtrsm", dtrsm);
   NODE_SET_METHOD(exports, "strsm", strsm);
 
+  // LAPACK
   NODE_SET_METHOD(exports, "dgesv", dgesv);
   NODE_SET_METHOD(exports, "sgesv", sgesv);
+
+  // SPBLAS Creation
+  NODE_SET_METHOD(exports, "duscr_begin", duscr_begin);
+  NODE_SET_METHOD(exports, "suscr_begin", suscr_begin);
+  NODE_SET_METHOD(exports, "duscr_block_begin", duscr_block_begin);
+  NODE_SET_METHOD(exports, "suscr_block_begin", suscr_block_begin);
+  NODE_SET_METHOD(exports, "duscr_variable_block_begin", duscr_variable_block_begin);
+  NODE_SET_METHOD(exports, "suscr_variable_block_begin", suscr_variable_block_begin);
+
+  NODE_SET_METHOD(exports, "duscr_insert_entry", duscr_insert_entry);
+  NODE_SET_METHOD(exports, "suscr_insert_entry", suscr_insert_entry);
+  NODE_SET_METHOD(exports, "duscr_insert_entries", duscr_insert_entries);
+  NODE_SET_METHOD(exports, "suscr_insert_entries", suscr_insert_entries);
+  NODE_SET_METHOD(exports, "duscr_insert_col", duscr_insert_col);
+  NODE_SET_METHOD(exports, "suscr_insert_col", suscr_insert_col);
+  NODE_SET_METHOD(exports, "duscr_insert_row", duscr_insert_row);
+  NODE_SET_METHOD(exports, "suscr_insert_row", suscr_insert_row);
+  NODE_SET_METHOD(exports, "duscr_insert_clique", duscr_insert_clique);
+  NODE_SET_METHOD(exports, "suscr_insert_clique", suscr_insert_clique);
+  NODE_SET_METHOD(exports, "duscr_insert_block", duscr_insert_block);
+  NODE_SET_METHOD(exports, "suscr_insert_block", suscr_insert_block);
+
+  NODE_SET_METHOD(exports, "duscr_end", duscr_end);
+  NODE_SET_METHOD(exports, "suscr_end", suscr_end);
+  NODE_SET_METHOD(exports, "_usgp", _usgp);
+  NODE_SET_METHOD(exports, "_ussp", _ussp);
+  NODE_SET_METHOD(exports, "_usds", _usds);
+
+
+  // SPBLAS Level 1
+  
+  // SPBLAS Level 2
+  
+  // SPBLAS Level 3
 }
 
 NODE_MODULE(addon, Init)

@@ -6,6 +6,7 @@
 #define GET_CONTENTS(view) \
 (static_cast<unsigned char*>(view->Buffer()->GetContents().Data()) + view->ByteOffset())
 
+// BLAS Level 1
 void dasum(const v8::FunctionCallbackInfo<v8::Value>& info);
 void sasum(const v8::FunctionCallbackInfo<v8::Value>& info);
 void daxpy(const v8::FunctionCallbackInfo<v8::Value>& info);
@@ -33,6 +34,7 @@ void sswap(const v8::FunctionCallbackInfo<v8::Value>& info);
 void idamax(const v8::FunctionCallbackInfo<v8::Value>& info);
 void isamax(const v8::FunctionCallbackInfo<v8::Value>& info);
 
+// BLAS Level 2
 void dgbmv(const v8::FunctionCallbackInfo<v8::Value>& info);
 void sgbmv(const v8::FunctionCallbackInfo<v8::Value>& info);
 void dgemv(const v8::FunctionCallbackInfo<v8::Value>& info);
@@ -66,6 +68,7 @@ void strmv(const v8::FunctionCallbackInfo<v8::Value>& info);
 void dtrsv(const v8::FunctionCallbackInfo<v8::Value>& info);
 void strsv(const v8::FunctionCallbackInfo<v8::Value>& info);
 
+// BLAS Level 3
 void dgemm(const v8::FunctionCallbackInfo<v8::Value>& info);
 void sgemm(const v8::FunctionCallbackInfo<v8::Value>& info);
 void dsymm(const v8::FunctionCallbackInfo<v8::Value>& info);
@@ -79,7 +82,43 @@ void strmm(const v8::FunctionCallbackInfo<v8::Value>& info);
 void dtrsm(const v8::FunctionCallbackInfo<v8::Value>& info);
 void strsm(const v8::FunctionCallbackInfo<v8::Value>& info);
 
+// LAPACK
 void dgesv(const v8::FunctionCallbackInfo<v8::Value>& info);
 void sgesv(const v8::FunctionCallbackInfo<v8::Value>& info);
+
+// SPBLAS Creation
+void duscr_begin(const v8::FunctionCallbackInfo<v8::Value>& info);
+void suscr_begin(const v8::FunctionCallbackInfo<v8::Value>& info);
+void duscr_block_begin(const v8::FunctionCallbackInfo<v8::Value>& info);
+void suscr_block_begin(const v8::FunctionCallbackInfo<v8::Value>& info);
+void duscr_variable_block_begin(const v8::FunctionCallbackInfo<v8::Value>& info);
+void suscr_variable_block_begin(const v8::FunctionCallbackInfo<v8::Value>& info);
+
+void duscr_insert_entry(const v8::FunctionCallbackInfo<v8::Value>& info);
+void suscr_insert_entry(const v8::FunctionCallbackInfo<v8::Value>& info);
+void duscr_insert_entries(const v8::FunctionCallbackInfo<v8::Value>& info);
+void suscr_insert_entries(const v8::FunctionCallbackInfo<v8::Value>& info);
+void duscr_insert_col(const v8::FunctionCallbackInfo<v8::Value>& info);
+void suscr_insert_col(const v8::FunctionCallbackInfo<v8::Value>& info);
+void duscr_insert_row(const v8::FunctionCallbackInfo<v8::Value>& info);
+void suscr_insert_row(const v8::FunctionCallbackInfo<v8::Value>& info);
+void duscr_insert_clique(const v8::FunctionCallbackInfo<v8::Value>& info);
+void suscr_insert_clique(const v8::FunctionCallbackInfo<v8::Value>& info);
+void duscr_insert_block(const v8::FunctionCallbackInfo<v8::Value>& info);
+void suscr_insert_block(const v8::FunctionCallbackInfo<v8::Value>& info);
+
+void duscr_end(const v8::FunctionCallbackInfo<v8::Value>& info);
+void suscr_end(const v8::FunctionCallbackInfo<v8::Value>& info);
+void _usgp(const v8::FunctionCallbackInfo<v8::Value>& info);
+void _ussp(const v8::FunctionCallbackInfo<v8::Value>& info);
+void _usds(const v8::FunctionCallbackInfo<v8::Value>& info);
+
+
+
+// SPBLAS Level 1
+
+// SPBLAS Level 2
+
+// SPBLAS Level 3
 
 #endif

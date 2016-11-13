@@ -278,6 +278,7 @@
     // solves a triangular matrix equation
   });
 
+
   describe('?gesv', function () {
     // solves for X the system of linear equations A*X = B, where A is an n-by-n matrix
     it('works for 2x2 * 2x2', function () {
@@ -358,4 +359,21 @@
     });
 
   });
+
+
+  describe('?uscr_*, usds, usgp', function () {
+    // sparse construction
+    it('sparse creation works', function () {
+      var double = true;
+      var A = nblas.uscr_begin(double, 5, 3);
+      nblas.uscr_insert_entry(double, A, 1.1, 0, 0);
+      nblas.uscr_insert_entry(double, A, 2.2, 2, 1);
+      nblas.uscr_insert_entry(double, A, 3.3, 2, 2);
+      nblas.uscr_insert_entry(double, A, 4.4, 4, 2);
+      nblas.uscr_end(double, A);
+      assert.equal(nblas.usgp(A, nblas.SizeType.blas_num_nonzeros), 4);
+      nblas.usds(A);
+    });
+  });
+
 }());

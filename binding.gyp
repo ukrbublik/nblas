@@ -39,7 +39,12 @@
         "routines/level3/syr2k.cc",
         "routines/level3/trmm.cc",
         "routines/level3/trsm.cc",
-        "routines/lapack/gesv.cc"
+        "routines/lapack/gesv.cc",
+        "lib/nist_spblas.cc",
+        "routines/spblas/creation.cc",
+        "routines/spblas/level1.cc",
+        "routines/spblas/level2.cc",
+        "routines/spblas/level3.cc"
       ],
       "include_dirs" : [
         "lib"
