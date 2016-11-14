@@ -1,9 +1,9 @@
-# nBLAS ![version](https://img.shields.io/npm/v/nblas.svg) ![travis](https://img.shields.io/travis/mateogianolio/nblas.svg)
+# nBLAS ![version](https://img.shields.io/npm/v/nblas.svg)+ ![travis](https://img.shields.io/travis/mateogianolio/nblas.svg)
 
-Node `>=4.0` C++ bindings for all single- and double-precision CBLAS (Basic Linear Algebra Subprograms) routines.
+Node `>=4.0` C++ bindings for all single- and double-precision CBLAS (Basic Linear Algebra Subprograms) and SPBLAS (Sparse BLAS) routines. Also LAPACK routines (for now only solve general system of linear equations AX=B).
 
 ```bash
-$ npm install nblas
+$ npm install nblas-plus
 $ npm test
 ```
 
@@ -47,7 +47,44 @@ $ npm test
   - [x] [`?trmm (a, b, m, n, [side = nblas.Left], [uplo = nblas.Upper], [transa = 111], [diag = nblas.NonUnit], [alpha = 1.0])`](https://software.intel.com/node/fe86b64a-4620-4e8f-8263-8442ace782df#FE86B64A-4620-4E8F-8263-8442ACE782DF)
   - [x] [`?trsm (a, b, m, n, [diag = nblas.NonUnit], [uplo = nblas.Upper], [transa = 111], [diag = nblas.NonUnit], [alpha = 1.0])`](https://software.intel.com/node/ce40548f-549d-4af8-9668-b63b28c8c63f#CE40548F-549D-4AF8-9668-B63B28C8C63F)
 
+- **[LAPACK Routines](https://software.intel.com/ru-ru/node/468874)** (**[see also](http://physics.oregonstate.edu/~landaur/nacphy/lapack/simple.html)**)
+  - [x] [`gesv (A, B, m, n)`] (https://software.intel.com/ru-ru/node/468876)
+  - [ ] others ... todo?
 
+- **[SPBLAS](http://math.nist.gov/spblas/)** (**[doc1](http://www.cerfacs.fr/algor/reports/2001/TR_PA_01_24.pdf)**, **[doc2](http://www.netlib.org/blas/blast-forum/chapter3.pdf)**)
+  - **SPBLAS Creation Routines**
+    - Construction
+      - [x] `?uscr_begin (double, m, n)` Construction
+      - [x] `?uscr_block_begin (double, Mb, Nb, k, l)`] Block construction (Mb, Nb - blocks count, k, l = blocks size, M = Mb * k, N = Nb * l)
+      - [x] `?uscr_variable_block_begin (double, Mb, Nb, K, L)` K - array of size Mb, L - array of size Nb)
+    - Insertion
+      - [x] `?uscr_insert_entry (A, val, i, j)`
+      - [x] `?uscr_insert_entries (A, nz, vals, indx, jndx)`
+      - [x] `?uscr_insert_col (A, j, nz, vals, indx)`
+      - [x] `?uscr_insert_row (A, i, nz, vals, jndx)`
+      - [x] `?uscr_insert_clique (A, k, l, vals, row_stride, col_stride, indx, jndx)`
+      - [x] `?uscr_insert_block (A, vals, row_stride, col_stride, i, j)`
+    - Completion of Construction Routines
+      - [x] `?uscr_end (A)`
+    - Matrix Property Routines
+      - [x] `usgp (A)` get, see list of options below (**Sparse matrix properties**)
+      - [x] `ussp (A)` set
+    - Destruction Routine
+      - [x] `usds (A)`
+  - **SPBLAS Level 1 Routines**
+    - [x] `?usdot (x, indx, y)` sparse dot product 
+    - [x] `?usaxpy (x, indx, y, alpha)` sparse vector update 
+    - [x] `?usga (x, indx, y)` sparse gather 
+    - [x] `?usgz (x, indx, y)` sparse gather and zero  
+    - [x] `?ussc (x, indx, y)` sparse scatter
+  - **SPBLAS Level 2 Routines** 
+    - [x] `?usmv (A, x, y, trans = nblas.Trans, alpha = 1.0)` sparse matrix-vector multiply, A [m * n] * x [ n * 1 ] = y [ m * 1 ]
+    - [x] `?ussv (A, x, trans = nblas.Trans, alpha = 1.0)` sparse triangular solve  
+  - **SPBLAS Level 3 Routines** 
+    - [x] `?usmm (A, B, C, nrhs, trans = nblas.Trans, alpha = 1.0)` sparse matrix-matrix multiply 
+    - [x] `?ussm (A, B, nrhs, trans = nblas.Trans, alpha = 1.0)` sparse triangular solve
+  
+  
 - **Matrix layout enums**
   - **Matrix transpose** (`trans`)
     - `nblas.NoTrans (default)`
@@ -62,9 +99,36 @@ $ npm test
   - **Matrix side** (`side`)
     - `nblas.Left (default)`
     - `nblas.Right`
+    
+  - **Sparse matrix properties**
+    - **nblas.SymmetryType**
+      - `blas_general`
+      - `blas_symmetric`
+      - `blas_hermitian`
+      - `blas_triangular`
+      - `blas_lower_triangular`
+      - `blas_upper_triangular`
+      - `blas_lower_symmetric`
+      - `blas_upper_symmetric`
+      - `blas_lower_hermitian`
+      - `blas_upper_hermitian`
+    - **nblas.FieldType**
+      - `blas_double_precision`
+      - `blas_single_precision`
+    - **nblas.SizeType**
+      - `blas_num_rows`
+      - `blas_num_cols`
+      - `blas_num_nonzeros`
+    - **nblas.HandleType**
+      - `blas_invalid_handle`
+      - `blas_new_handle`
+      - `blas_open_handle`
+      - `blas_valid_handle`
+  
 
-
-Works out of the box with OSX since CBLAS is included in the standard Accelerate framework. You might have to download and build [LAPACK](http://www.netlib.org/lapack/#_lapack_version_3_6_0) from source on other operating systems (**LINUX:** `sudo apt-get libblas-dev` `sudo apt-get install liblapack*`).
+Works out of the box with OSX since CBLAS is included in the standard Accelerate framework. 
+You might have to download and build [LAPACK](http://www.netlib.org/lapack/#_lapack_version_3_6_0) from source on other operating systems 
+(**LINUX:** `sudo apt-get libblas-dev` `sudo apt-get install liblapack*`).
 
 ```javascript
 var nblas = require('nblas');
