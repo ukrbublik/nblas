@@ -8,7 +8,8 @@
     "install": "node-gyp configure && node-gyp rebuild"
   },
   "repository": {
-    "git": "https://github.com/ukrbublik/nblas-plus"
+    "type": "git",
+    "url": "https://github.com/ukrbublik/nblas-plus"
   },
   "devDependencies": {
     "mocha": "^2.4.5"
