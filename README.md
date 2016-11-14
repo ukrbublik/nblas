@@ -1,4 +1,4 @@
-## nBLAS ![version](https://img.shields.io/npm/v/nblas-plus.svg) ![travis](https://travis-ci.org/ukrbublik/nblas-plus.svg?branch=master)
+## nBLAS+ ![version](https://img.shields.io/npm/v/nblas-plus.svg) ![travis](https://travis-ci.org/ukrbublik/nblas-plus.svg?branch=master)
 
 Node `>=4.0` C++ bindings for all single- and double-precision CBLAS (Basic Linear Algebra Subprograms) and SPBLAS (Sparse BLAS) routines. Also LAPACK routines (for now only solve general system of linear equations AX=B).
 
