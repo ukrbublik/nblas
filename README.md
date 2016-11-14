@@ -1,12 +1,24 @@
-# nBLAS ![version](https://img.shields.io/npm/v/nblas.svg)+ ![travis](https://img.shields.io/travis/mateogianolio/nblas.svg)
+## nBLAS ![version](https://img.shields.io/npm/v/nblas.svg)+ ![travis](https://img.shields.io/travis/mateogianolio/nblas.svg)
 
 Node `>=4.0` C++ bindings for all single- and double-precision CBLAS (Basic Linear Algebra Subprograms) and SPBLAS (Sparse BLAS) routines. Also LAPACK routines (for now only solve general system of linear equations AX=B).
 
+
+Install
+---
 ```bash
 $ npm install nblas-plus
 $ npm test
 ```
+Works out of the box with OSX since CBLAS is included in the standard Accelerate framework. <br>
+You might have to download and build [LAPACK](http://www.netlib.org/lapack/#_lapack_version_3_6_0) from source on other operating systems<br>
+**LINUX:**
+```bash
+$ sudo apt-get libblas-dev
+$ sudo apt-get install liblapack*
+```
 
+API
+---
 - **[BLAS Level 1 Routines and Functions](https://software.intel.com/en-us/node/468390)**
   - [x] [`?asum (x)`](https://software.intel.com/node/e49cf403-8071-4252-a85f-28964ac3da9e#E49CF403-8071-4252-A85F-28964AC3DA9E)
   - [x] [`?axpy (x, y, [alpha = 1.0])`](https://software.intel.com/node/e25d8e10-0440-4827-bc58-bc71128ea6ee#E25D8E10-0440-4827-BC58-BC71128EA6EE)
@@ -47,8 +59,8 @@ $ npm test
   - [x] [`?trmm (a, b, m, n, [side = nblas.Left], [uplo = nblas.Upper], [transa = 111], [diag = nblas.NonUnit], [alpha = 1.0])`](https://software.intel.com/node/fe86b64a-4620-4e8f-8263-8442ace782df#FE86B64A-4620-4E8F-8263-8442ACE782DF)
   - [x] [`?trsm (a, b, m, n, [diag = nblas.NonUnit], [uplo = nblas.Upper], [transa = 111], [diag = nblas.NonUnit], [alpha = 1.0])`](https://software.intel.com/node/ce40548f-549d-4af8-9668-b63b28c8c63f#CE40548F-549D-4AF8-9668-B63B28C8C63F)
 
-- **[LAPACK Routines](https://software.intel.com/ru-ru/node/468874)** (**[see also](http://physics.oregonstate.edu/~landaur/nacphy/lapack/simple.html)**)
-  - [x] [`gesv (A, B, m, n)`] (https://software.intel.com/ru-ru/node/468876)
+- **[LAPACK Routines](https://software.intel.com/ru-ru/node/468874)** (**[list of routines](http://physics.oregonstate.edu/~landaur/nacphy/lapack/simple.html)**)
+  - [x] [`?gesv (A, B, m, n)`] (https://software.intel.com/ru-ru/node/468876) A [m,m] * x [m,n] = B [m,n], solution out in B
   - [ ] others ... todo?
 
 - **[SPBLAS](http://math.nist.gov/spblas/)** (**[doc1](http://www.cerfacs.fr/algor/reports/2001/TR_PA_01_24.pdf)**, **[doc2](http://www.netlib.org/blas/blast-forum/chapter3.pdf)**)
@@ -56,7 +68,7 @@ $ npm test
     - Construction
       - [x] `?uscr_begin (double, m, n)` Construction
       - [x] `?uscr_block_begin (double, Mb, Nb, k, l)`] Block construction (Mb, Nb - blocks count, k, l = blocks size, M = Mb * k, N = Nb * l)
-      - [x] `?uscr_variable_block_begin (double, Mb, Nb, K, L)` K - array of size Mb, L - array of size Nb)
+      - [x] `?uscr_variable_block_begin (double, Mb, Nb, K, L)` Variable block construction (K - array of size Mb, L - array of size Nb)
     - Insertion
       - [x] `?uscr_insert_entry (A, val, i, j)`
       - [x] `?uscr_insert_entries (A, nz, vals, indx, jndx)`
@@ -101,7 +113,7 @@ $ npm test
     - `nblas.Right`
     
   - **Sparse matrix properties**
-    - **nblas.SymmetryType**
+    - **nblas.SymmetryType.**
       - `blas_general`
       - `blas_symmetric`
       - `blas_hermitian`
@@ -112,23 +124,25 @@ $ npm test
       - `blas_upper_symmetric`
       - `blas_lower_hermitian`
       - `blas_upper_hermitian`
-    - **nblas.FieldType**
+    - **nblas.FieldType.**
       - `blas_double_precision`
       - `blas_single_precision`
-    - **nblas.SizeType**
+    - **nblas.SizeType.**
       - `blas_num_rows`
       - `blas_num_cols`
       - `blas_num_nonzeros`
-    - **nblas.HandleType**
+    - **nblas.HandleType.**
       - `blas_invalid_handle`
       - `blas_new_handle`
       - `blas_open_handle`
       - `blas_valid_handle`
-  
 
-Works out of the box with OSX since CBLAS is included in the standard Accelerate framework. 
-You might have to download and build [LAPACK](http://www.netlib.org/lapack/#_lapack_version_3_6_0) from source on other operating systems 
-(**LINUX:** `sudo apt-get libblas-dev` `sudo apt-get install liblapack*`).
+Double precision functions expect `Float64Array` vectors, single precision functions expect `Float32Array` vectors.
+
+
+Examples
+---
+See `test/test.js`
 
 ```javascript
 var nblas = require('nblas');
@@ -146,4 +160,4 @@ nblas.dot(f32a, f32b); // or
 nblas.sdot(3, f32a, 1, f32b, 1); // 32
 ```
 
-Double precision functions expect `Float64Array` vectors, single precision functions expect `Float32Array` vectors.
+
