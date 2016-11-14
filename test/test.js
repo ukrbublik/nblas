@@ -292,21 +292,18 @@
       var a = new Float64Array([
         1, 2,
         3, 4
-        //1, 3, 2, 4
       ]);
 
       // x is 2x2 matrix, shape same as b
       var x = new Float64Array([
         5, 6,
         7, 8
-        //5, 7, 6, 8
       ]);
 
       // b is 2x2 matrix
       var b = new Float64Array([
         19, 22,
         43, 50
-        //19, 43, 22, 50
       ]);
 
       var res = nblas.gesv(a, b, 2, 2);
