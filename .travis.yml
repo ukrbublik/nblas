@@ -3,9 +3,8 @@ node_js:
   - "4.0"
 before_install:
   - sudo apt-get install libblas*
-  - sudo apt-get install liblapack*
-  - sudo apt-get install libgsl0-dev
-#  - sudo apt-get install liblapacke-dev
+#  - sudo apt-get install liblapack*
+#  - sudo apt-get install liblapacke*
   - wget http://www.netlib.org/lapack/lapack-3.6.1.tgz
   - tar xvf lapack-3.6.1.tgz
   - cd lapack-3.6.1/
