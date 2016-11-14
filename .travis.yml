@@ -4,6 +4,11 @@ node_js:
 before_install:
   - sudo apt-get install libblas-dev
   - sudo apt-get install liblapack-dev
+  - wget http://www.netlib.org/lapack/lapack-3.6.1.tgz
+  - tar xvf lapack-3.6.1.tgz
+  - cd lapack-3.6.1/
+  - cmake -DCMAKE_INSTALL_PREFIX=~/.local -DLAPACKE=ON -DCBLAS=ON .
+  - make install -j2 && ctest -j2 --output-on-failure --timeout 100
 env:
   - CXX=g++-4.8
 addons:
@@ -12,7 +17,11 @@ addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
+    - george-edison55-precise-backports # cmake
     packages:
     - gcc-4.8
     - g++-4.8
     - clang
+    - cmake
+    - cmake-data
+    - gfortran

@@ -50,7 +50,7 @@
         "lib"
       ],
       "libraries": [
-        "-lblas -llapack -lm"
+        "-lblas -llapack -llapacke"
       ]
     }
   ]
