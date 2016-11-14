@@ -17,8 +17,10 @@
    *  http://math.nist.gov/spblas/
    *  http://www.cerfacs.fr/algor/reports/2001/TR_PA_01_24.pdf
    *  http://www.netlib.org/blas/blast-forum/chapter3.pdf
-   *  see also this alt lib
+   *
+   *  see also this alt libs
    *  http://librsb.sourceforge.net/
+   *  https://github.com/xianyi/OpenBLAS
    **/
 
   // from enums declared in functions/cblas.h
