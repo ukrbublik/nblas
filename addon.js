@@ -4,6 +4,23 @@
   var nblas = require('./build/Release/addon');
   var assert = require('assert');
 
+  /**
+   * @doc
+   * BLAS:
+   *  https://software.intel.com/ru-ru/node/468390
+   *  https://software.intel.com/ru-ru/node/468426
+   *  https://software.intel.com/ru-ru/node/468478
+   * LAPACK:
+   *  http://physics.oregonstate.edu/~landaur/nacphy/lapack/simple.html
+   *  https://software.intel.com/ru-ru/node/468874
+   * SPBLAS:
+   *  http://math.nist.gov/spblas/
+   *  http://www.cerfacs.fr/algor/reports/2001/TR_PA_01_24.pdf
+   *  http://www.netlib.org/blas/blast-forum/chapter3.pdf
+   *  see also this alt lib
+   *  http://librsb.sourceforge.net/
+   **/
+
   // from enums declared in functions/cblas.h
   nblas.NoTrans = 111;
   nblas.Trans = 112;
