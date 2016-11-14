@@ -13,8 +13,9 @@ Works out of the box with OSX since CBLAS is included in the standard Accelerate
 You might have to download and build [LAPACK](http://www.netlib.org/lapack/#_lapack_version_3_6_0) from source on other operating systems<br>
 **LINUX:**
 ```bash
-$ sudo apt-get libblas-dev
+$ sudo apt-get install libblas*
 $ sudo apt-get install liblapack*
+$ sudo apt-get install liblapacke*
 ```
 
 API

@@ -5,6 +5,7 @@ before_install:
   - sudo apt-get install libblas-dev
   - sudo apt-get install libblas*
   - sudo apt-get install liblapack*
+  - sudo apt-get install liblapacke*
 env:
   - CXX=g++-4.8
 addons:
