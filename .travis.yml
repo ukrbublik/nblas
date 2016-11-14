@@ -9,6 +9,10 @@ before_install:
   - cd lapack-3.6.1/
   - cmake -DCMAKE_INSTALL_PREFIX=~/.local -DLAPACKE=ON -DCBLAS=ON .
   - make install -j2 && ctest -j2 --output-on-failure --timeout 100
+  - cd ..
+install:
+  - npm install
+  - npm test
 env:
   - CXX=g++-4.8
 addons:
