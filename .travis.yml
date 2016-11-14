@@ -10,6 +10,8 @@ before_install:
   - cmake -DCMAKE_INSTALL_PREFIX=~/.local -DLAPACKE=ON -DCBLAS=ON .
   - make install -j2 && ctest -j2 --output-on-failure --timeout 100
   - cd ..
+  - export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/travis/.local/lib/
+  - export CPATH=${CPATH}:/home/travis/.local/include/
 install:
   - npm install
   - npm test
