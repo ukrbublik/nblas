@@ -32,8 +32,8 @@
     blas_upper_hermitian  : 240
   };
   nblas.FieldType = {
-    blas_complex          : 241,
-    blas_real             : 242,
+    blas_complex          : 241, //not supported here
+    blas_real             : 242, //not supported here
     blas_double_precision : 243,
     blas_single_precision : 244
   };
