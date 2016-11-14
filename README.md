@@ -14,6 +14,7 @@ You might have to download and build [LAPACK](http://www.netlib.org/lapack/#_lap
 **LINUX:**
 ```bash
 $ sudo apt-get install libblas-dev
+$ sudo apt-get install libgsl0-dev
 $ sudo apt-get install liblapacke-dev
 ```
 
