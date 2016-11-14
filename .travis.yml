@@ -4,14 +4,16 @@ node_js:
 before_install:
   - sudo apt-get install libblas-dev
   - sudo apt-get install liblapack-dev
+#  - sudo apt-get install liblapacke-dev
   - wget http://www.netlib.org/lapack/lapack-3.6.1.tgz
   - tar xvf lapack-3.6.1.tgz
   - cd lapack-3.6.1/
-  - cmake -DCMAKE_INSTALL_PREFIX=~/.local -DLAPACKE=ON -DCBLAS=ON -DBUILD_SHARED_LIBS=ON  .
-  - make install -j2 && ctest -j2 --output-on-failure --timeout 100
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DLAPACKE=ON -DCBLAS=ON -DBUILD_SHARED_LIBS=ON  .
+#  - make install -j2 && ctest -j2 --output-on-failure --timeout 100
+  - make install -j2
   - cd ..
-  - export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/travis/.local/lib/
-  - export CPATH=${CPATH}:/home/travis/.local/include/
+#  - export LD_LIBRARY_PATH=~/.local/lib/:${LD_LIBRARY_PATH}
+#  - export CPATH=~/.local/include/:${CPATH}
 install:
   - npm install
   - npm test
