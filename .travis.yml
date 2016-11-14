@@ -2,14 +2,15 @@ language: node_js
 node_js:
   - "4.0"
 before_install:
-  - sudo apt-get install libblas-dev
-  - sudo apt-get install liblapack-dev
+  - sudo apt-get install libblas*
+  - sudo apt-get install libatlas*
+  - sudo apt-get install liblapack*
 #  - sudo apt-get install liblapacke-dev
   - wget http://www.netlib.org/lapack/lapack-3.6.1.tgz
   - tar xvf lapack-3.6.1.tgz
   - cd lapack-3.6.1/
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DLAPACKE=ON -DCBLAS=ON -DBUILD_SHARED_LIBS=ON  .
-#  - make install -j2 && ctest -j2 --output-on-failure --timeout 100
+#  - sudo make install -j2 && ctest -j2 --output-on-failure --timeout 100
   - sudo make install -j2
   - cd ..
 #  - export LD_LIBRARY_PATH=~/.local/lib/:${LD_LIBRARY_PATH}
