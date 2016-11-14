@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 //#include <lapacke.h>
-using std::swap;
 
 #if !defined(LAPACK_ROW_MAJOR)
 	#define LAPACK_ROW_MAJOR               101
