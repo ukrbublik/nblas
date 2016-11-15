@@ -551,5 +551,19 @@
       nblas.sussm(trans, nrhs, alpha, A, B);
   };
 
+
+  // Other
+  nblas.TrTo = function(a, b, m, n) {
+    return typeCheck(a) ?
+      nblas.dTrTo(m, n, a, b) :
+      nblas.sTrTo(m, n, a, b);
+  };
+  nblas.TrIp = function(a, m, n) {
+    return typeCheck(a) ?
+      nblas.dTrIp(m, n, a) :
+      nblas.sTrIp(m, n, a);
+  };
+
+
   module.exports = nblas;
 }());

@@ -133,6 +133,11 @@ void Init(v8::Local<v8::Object> exports) {
   NODE_SET_METHOD(exports, "dusmm", dusmm);
   NODE_SET_METHOD(exports, "susmm", susmm);
 
+  // Other
+  NODE_SET_METHOD(exports, "dTrTo", dTrTo);
+  NODE_SET_METHOD(exports, "cTrTo", cTrTo);
+  NODE_SET_METHOD(exports, "dTrIp", dTrIp);
+  NODE_SET_METHOD(exports, "cTrIp", cTrIp);
 }
 
 NODE_MODULE(addon, Init)

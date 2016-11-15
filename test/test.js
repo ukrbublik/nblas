@@ -491,7 +491,7 @@
       var C = new Float64Array(5*3);
       var ans = new Float64Array([
         1903.32, 796.16,  2665.27,
-        76.8,  404.64,  10.56,
+        76.8,    404.64,  10.56,
         2582.64, 1080.32, 3616.54,
         848.22,  2861.16, 5203.26,
         1926.96, 3459.6,  1011.84
@@ -506,6 +506,31 @@
 
   describe('?ussm', function () {
     // sparse triangular solve 
+  });
+
+
+  //
+  // Other
+  //
+  describe('?trto, ?trip', function () {
+    var a = new Float64Array([
+      1, 2, 3,
+      4, 5, 6
+    ]);
+    var ans = new Float64Array([
+      1, 4,
+      2, 5,
+      3, 6
+    ]);
+    it('transpose to works', function () {
+      var b = new Float64Array(6);
+      nblas.TrTo(a, b, 2, 3);
+      assert.deepEqual(b, ans);
+    });
+    it('transpose works', function () {
+      nblas.TrIp(a, 2, 3);
+      assert.deepEqual(a, ans);
+    });
   });
 
 
