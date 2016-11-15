@@ -380,6 +380,35 @@
       assert.equal(nblas.usgp(A, nblas.SizeType.blas_num_nonzeros), 4);
       nblas.usds(A);
     });
+    it('sparse matrix creation by cols works', function () {
+      var double = true;
+      var A = nblas.uscr_begin(double, 5, 2);
+      nblas.uscr_insert_col(A, 0, 1, new Float64Array([3]), new Int32Array([1]));
+      nblas.uscr_insert_col(A, 1, 2, new Float64Array([7, 8]), new Int32Array([0, 3]));
+      nblas.uscr_end(A);
+      assert.equal(nblas.usgp(A, nblas.SizeType.blas_num_nonzeros), 3);
+      nblas.usds(A);
+    });
+    it('sparse matrix creation by rows works', function () {
+      var double = true;
+      var A = nblas.uscr_begin(double, 2, 5);
+      nblas.uscr_insert_row(A, 0, 1, new Float64Array([3]), new Int32Array([1]));
+      nblas.uscr_insert_row(A, 1, 2, new Float64Array([7, 8]), new Int32Array([0, 3]));
+      nblas.uscr_end(A);
+      assert.equal(nblas.usgp(A, nblas.SizeType.blas_num_nonzeros), 3);
+      nblas.usds(A);
+    });
+    it('sparse matrix creation by array of entries works', function () {
+      var double = true;
+      var A = nblas.uscr_begin(double, 5, 3);
+      var vals = new Float64Array([1.1, 2.2, 3.3, 4.4]);
+      var indx = new Int32Array([0, 2, 2, 4]);
+      var jndx = new Int32Array([0, 1, 2, 2]);
+      nblas.uscr_insert_entries(A, 4, vals, indx, jndx);
+      nblas.uscr_end(A);
+      assert.equal(nblas.usgp(A, nblas.SizeType.blas_num_nonzeros), 4);
+      nblas.usds(A);
+    });
   });
 
   describe('?usdot', function () {

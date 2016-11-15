@@ -1609,6 +1609,13 @@ int BLAS_DOUBLE_NAME(uscr_insert_col)(
 }
 
 int BLAS_DOUBLE_NAME(uscr_insert_row)( 
+    blas_sparse_matrix A, int i, int nz, 
+    SPBLAS_VECTOR_DOUBLE_IN val, const int *jndx )
+{
+  return BLAS_xuscr_insert_row(A, i, nz, SPBLAS_TO_VECTOR_DOUBLE_IN( val ), jndx);
+}
+
+int BLAS_DOUBLE_NAME(uscr_insert_row)( 
   blas_sparse_matrix A, int i, int nz,
   SPBLAS_VECTOR_DOUBLE_IN val, const int *indx );
 
@@ -1833,6 +1840,13 @@ int BLAS_COMPLEX_DOUBLE_NAME(uscr_insert_col)(
     SPBLAS_VECTOR_COMPLEX_DOUBLE_IN val, const int *indx )
 {
   return BLAS_xuscr_insert_col(A, j, nz, SPBLAS_TO_VECTOR_COMPLEX_DOUBLE_IN( val ), indx);
+}
+
+int BLAS_COMPLEX_DOUBLE_NAME(uscr_insert_row)( 
+    blas_sparse_matrix A, int i, int nz, 
+    SPBLAS_VECTOR_COMPLEX_DOUBLE_IN val, const int *jndx )
+{
+  return BLAS_xuscr_insert_row(A, i, nz, SPBLAS_TO_VECTOR_COMPLEX_DOUBLE_IN( val ), jndx);
 }
 
 int BLAS_COMPLEX_DOUBLE_NAME(uscr_insert_row)( 
