@@ -2081,6 +2081,13 @@ int BLAS_FLOAT_NAME(uscr_insert_col)(
 }
 
 int BLAS_FLOAT_NAME(uscr_insert_row)( 
+    blas_sparse_matrix A, int i, int nz, 
+    SPBLAS_VECTOR_FLOAT_IN val, const int *jndx )
+{
+  return BLAS_xuscr_insert_row(A, i, nz, SPBLAS_TO_VECTOR_FLOAT_IN( val ), jndx);
+}
+
+int BLAS_FLOAT_NAME(uscr_insert_row)( 
   blas_sparse_matrix A, int i, int nz,
   SPBLAS_VECTOR_FLOAT_IN val, const int *indx );
 
