@@ -545,17 +545,17 @@
   // Other
   //
   describe('?trto, ?trip', function () {
-    var a = new Float64Array([
+    var a = new Float32Array([
       1, 2, 3,
       4, 5, 6
     ]);
-    var ans = new Float64Array([
+    var ans = new Float32Array([
       1, 4,
       2, 5,
       3, 6
     ]);
     it('transpose to works', function () {
-      var b = new Float64Array(6);
+      var b = new Float32Array(6);
       nblas.TrTo(a, b, 2, 3);
       assert.deepEqual(b, ans);
     });

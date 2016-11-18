@@ -139,8 +139,8 @@ void susmm(const v8::FunctionCallbackInfo<v8::Value>& info);
 
 // Other
 void dTrTo(const v8::FunctionCallbackInfo<v8::Value>& info);
-void cTrTo(const v8::FunctionCallbackInfo<v8::Value>& info);
+void sTrTo(const v8::FunctionCallbackInfo<v8::Value>& info);
 void dTrIp(const v8::FunctionCallbackInfo<v8::Value>& info);
-void cTrIp(const v8::FunctionCallbackInfo<v8::Value>& info);
+void sTrIp(const v8::FunctionCallbackInfo<v8::Value>& info);
 
 #endif

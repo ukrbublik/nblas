@@ -14,7 +14,7 @@ void dTrTo(const v8::FunctionCallbackInfo<v8::Value>& info) {
 		}
 	}
 }
-void cTrTo(const v8::FunctionCallbackInfo<v8::Value>& info) {
+void sTrTo(const v8::FunctionCallbackInfo<v8::Value>& info) {
 	int r = info[0]->Int32Value();
 	int c = info[1]->Int32Value();
 	float *a = reinterpret_cast<float*>(GET_CONTENTS(info[2].As<v8::Float32Array>()));
@@ -42,7 +42,7 @@ void dTrIp(const v8::FunctionCallbackInfo<v8::Value>& info) {
 	}
 	delete b;
 }
-void cTrIp(const v8::FunctionCallbackInfo<v8::Value>& info) {
+void sTrIp(const v8::FunctionCallbackInfo<v8::Value>& info) {
 	int r = info[0]->Int32Value();
 	int c = info[1]->Int32Value();
 	float *a = reinterpret_cast<float*>(GET_CONTENTS(info[2].As<v8::Float32Array>()));
