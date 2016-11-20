@@ -40,6 +40,8 @@
         "routines/level3/trmm.cc",
         "routines/level3/trsm.cc",
         "routines/lapack/gesv.cc",
+        "routines/lapack/gesvx.cc",
+        "routines/lapack/getrf.cc",
         "lib/nist_spblas.cc",
         "routines/spblas/creation.cc",
         "routines/spblas/level1.cc",

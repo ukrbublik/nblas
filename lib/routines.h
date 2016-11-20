@@ -6,6 +6,27 @@
 #define GET_CONTENTS(view) \
 (static_cast<unsigned char*>(view->Buffer()->GetContents().Data()) + view->ByteOffset())
 
+#define MIN(a, b) (a < b ? a : b)
+#define MAX(a, b) (a > b ? a : b)
+
+// For LAPACK Expert Driver Routines
+enum LAPACK_FACT {
+	LAPACK_FACT_N = 0, // The matrix A will	be copied to AF and factored
+	LAPACK_FACT_F = 1, // Use already factored form of A from AF and IPIV as input
+	LAPACK_FACT_E = 2 // The matrix A will be equilibrated if necessary, then copied to AF	and factored
+};
+enum LAPACK_TRANS {
+	LAPACK_TRANS_N = 0, // No transpose
+	LAPACK_TRANS_T = 1, // Transpose A**T
+	LAPACK_TRANS_C = 2 // Transpose A**H
+};
+enum LAPACK_EQUED {
+	LAPACK_EQUED_N = 0, // No equilibration	(always	true if	FACT = 'N')
+	LAPACK_EQUED_R = 1, // Row equilibration, i.e., A has been premultiplied by diag(R)
+	LAPACK_EQUED_C = 2, // Column equilibration, i.e.,	A has been postmultiplied	by diag(C)
+	LAPACK_EQUED_B = 3 // Both row and column equilibration,	i.e., A has	been replaced by diag(R) * A * diag(C)
+};
+
 // BLAS Level 1
 void dasum(const v8::FunctionCallbackInfo<v8::Value>& info);
 void sasum(const v8::FunctionCallbackInfo<v8::Value>& info);
@@ -85,6 +106,10 @@ void strsm(const v8::FunctionCallbackInfo<v8::Value>& info);
 // LAPACK
 void dgesv(const v8::FunctionCallbackInfo<v8::Value>& info);
 void sgesv(const v8::FunctionCallbackInfo<v8::Value>& info);
+void dgesvx(const v8::FunctionCallbackInfo<v8::Value>& info);
+void sgesvx(const v8::FunctionCallbackInfo<v8::Value>& info);
+void dgetrf(const v8::FunctionCallbackInfo<v8::Value>& info);
+void sgetrf(const v8::FunctionCallbackInfo<v8::Value>& info);
 
 // SPBLAS Creation
 void duscr_begin(const v8::FunctionCallbackInfo<v8::Value>& info);

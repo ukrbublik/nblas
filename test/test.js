@@ -306,7 +306,8 @@
         43, 50
       ]);
 
-      var res = nblas.gesv(a, b, 2, 2);
+      var ipiv = new Int32Array(2);
+      var res = nblas.gesv(a, b, 2, 2, ipiv);
       assert.equal(res, 0);
       b = b.map(el => el.toFixed(2) );
       assert.deepEqual(b, x);
@@ -326,7 +327,8 @@
         9, 8,
       ]);
 
-      var res = nblas.gesv(a, b, 2, 1);
+      var ipiv = new Int32Array(2);
+      var res = nblas.gesv(a, b, 2, 1, ipiv);
       assert.equal(res, 0);
       b = b.map(el => el.toFixed(2) );
       assert.deepEqual(b, x);
@@ -355,7 +357,8 @@
         0.57,    0.11,   4.04
       ]);
 
-      var res = nblas.gesv(a, b, 5, 3);
+      var ipiv = new Int32Array(5);
+      var res = nblas.gesv(a, b, 5, 3, ipiv);
       assert.equal(res, 0);
       b = b.map(el => el.toFixed(2) );
       assert.deepEqual(b, x);
@@ -363,6 +366,222 @@
 
   });
 
+  describe('?getrf', function () {
+    it('works for 5x4', function () {
+      var ipiv = new Int32Array(4);
+      var a = new Float64Array([
+        3,  4,  7, 9,
+        1,  4,  6, 7,
+        11, 19, 1, 3,
+        15, 13, 4, 8,
+        15, 13, 2, 8
+      ]);
+      var af_res = new Float64Array([
+        15,    13,    4,     8, 
+        0.73,  9.47, -1.93, -2.87, 
+        0.2,   0.15,  6.49,  7.82, 
+        1,     0,    -0.31,  2.41, 
+        0.07,  0.33,  0.98, -0.11
+      ]);
+      var ipiv_res = new Int32Array([
+        4, 3, 4, 5
+      ]);
+      var res = nblas.getrf(a, ipiv, 5, 4);
+      assert.equal(res, 0);
+      a = a.map(el => el.toFixed(2) );
+      ipiv = ipiv.map(el => el.toFixed(2) );
+      assert.deepEqual(a, af_res);
+      assert.deepEqual(ipiv, ipiv_res);
+    });
+
+    it('works for 5x5', function () {
+      //compare with gesv() output
+      var a1 = new Float64Array([
+        3,  4,  7, 9, 3,
+        1,  4,  6, 7, 17,
+        11, 19, 1, 3, 12,
+        15, 13, 4, 8, 11,
+        15, 13, 2, 8, 3,
+      ]);
+      var a = new Float64Array(a1);
+      var b1 = new Float64Array([
+        3,  4,  7,
+        1,  4,  6,
+        11, 19, 1,
+        15, 13, 4,
+        2,  4,  11,
+      ]);
+      var ipiv1 = new Int32Array(5);
+      var res = nblas.gesv(a1, b1, 5, 3, ipiv1);
+      assert.equal(res, 0);
+      a1 = a1.map(el => el.toFixed(2) );
+      ipiv1 = ipiv1.map(el => el.toFixed(2) );
+
+      var ipiv = new Int32Array(5);
+      var res = nblas.getrf(a, ipiv, 5, 5);
+      assert.equal(res, 0);
+      a = a.map(el => el.toFixed(2) );
+      ipiv = ipiv.map(el => el.toFixed(2) );
+
+      assert.deepEqual(a, a1);
+      assert.deepEqual(ipiv, ipiv1);
+    });
+
+    it('works for 4x5', function () {
+      var ipiv = new Int32Array(4);
+      var a = new Float64Array([
+        3, 4,  7,  9,  1,
+        4, 6,  7,  11, 19,
+        1, 3,  15, 13, 4, 
+        8, 15, 13, 2,  8
+      ]);
+      var af_res = new Float64Array([
+        8,     15,    13,    2,     8,
+        0.38, -1.63,  2.13,  8.25, -2,
+        0.13, -0.69,  14.85, 18.46, 1.62,
+        0.5,   0.92, -0.1,   4.2,   17.01 
+      ]);
+      var ipiv_res = new Int32Array([
+        4, 4, 3, 4
+      ]);
+      var res = nblas.getrf(a, ipiv, 4, 5);
+      assert.equal(res, 0);
+      a = a.map(el => el.toFixed(2) );
+      ipiv = ipiv.map(el => el.toFixed(2) );
+      assert.deepEqual(a, af_res);
+      assert.deepEqual(ipiv, ipiv_res);
+    });
+  });
+
+  describe('?gesvx', function () {
+    it('works in 2 steps (with getrf) for 5x5 * 5x3', function () {
+      var a = new Float64Array([
+        6.80,   -6.05,  -0.45,   8.32,  -9.67, 
+        -2.11,  -3.30,   2.58,   2.71,  -5.14, 
+        5.66,    5.36,  -2.70,   4.35,  -7.26,
+        5.97,   -4.44,   0.27,  -7.17,   6.08,
+        8.23,    1.08,   9.04,   2.14,  -6.87
+      ]);
+      var b = new Float64Array([
+        4.02,   -1.56,   9.81,
+        6.19,    4.00,  -4.09,
+        -8.22,  -8.67,  -4.57,
+        -7.57,   1.75,  -8.61,
+        -3.03,   2.86,   8.99
+      ]);
+      var ans = new Float64Array([
+        -0.80,  -0.39,   0.96,
+        -0.70,  -0.55,   0.22,
+        0.59,    0.84,   1.90,
+        1.32,   -0.10,   5.36,
+        0.57,    0.11,   4.04
+      ]);
+      var a_copy = new Float64Array(a);
+      var b_copy = new Float64Array(b);
+      var af = new Float64Array(a);
+
+      var af = new Float64Array(a);
+      var ipiv = new Int32Array(5);
+      var res = nblas.getrf(af, ipiv, 5, 5);
+      assert.equal(res, 0);
+
+      var x = new Float64Array(5*3);
+      var res = nblas.gesvx(a, b, x, 5, 3, af, ipiv, nblas.Lapack.Fact.F);
+      assert.equal(res, 0);
+      x = x.map(el => el.toFixed(2) );
+      assert.deepEqual(x, ans);
+      assert.deepEqual(a, a_copy);
+      assert.deepEqual(b, b_copy);
+    });
+
+    it('works in 2 steps (with getrf) for 5x5(T) * 5x3', function () {
+      var a_orig = new Float64Array([
+        6.80,   -6.05,  -0.45,   8.32,  -9.67, 
+        -2.11,  -3.30,   2.58,   2.71,  -5.14, 
+        5.66,    5.36,  -2.70,   4.35,  -7.26,
+        5.97,   -4.44,   0.27,  -7.17,   6.08,
+        8.23,    1.08,   9.04,   2.14,  -6.87
+      ]);
+      var a = new Float64Array(a_orig);
+      for (var i = 0 ; i < 5 ; i++) {
+        for (var j = 0 ; j < 5 ; j++) {
+          a[j * 5 + i] = a_orig[i * 5 + j];
+        }
+      }
+      var b = new Float64Array([
+        4.02,   -1.56,   9.81,
+        6.19,    4.00,  -4.09,
+        -8.22,  -8.67,  -4.57,
+        -7.57,   1.75,  -8.61,
+        -3.03,   2.86,   8.99
+      ]);
+      var ans = new Float64Array([
+        -0.80,  -0.39,   0.96,
+        -0.70,  -0.55,   0.22,
+        0.59,    0.84,   1.90,
+        1.32,   -0.10,   5.36,
+        0.57,    0.11,   4.04
+      ]);
+      var a_copy = new Float64Array(a);
+      var af = new Float64Array(a);
+
+      var af = new Float64Array(a);
+      var ipiv = new Int32Array(5);
+      var res = nblas.getrf(af, ipiv, 5, 5);
+      assert.equal(res, 0);
+
+      var x = new Float64Array(5*3);
+      var res = nblas.gesvx(a, b, x, 5, 3, af, ipiv, nblas.Lapack.Fact.F, nblas.Lapack.Trans.T);
+      assert.equal(res, 0);
+      x = x.map(el => el.toFixed(2) );
+      assert.deepEqual(x, ans);
+    });
+  });
+
+  it('works in 1 step (same as gesv) for 5x5 * 5x3', function () {
+    var a = new Float64Array([
+      6.80,   -6.05,  -0.45,   8.32,  -9.67, 
+      -2.11,  -3.30,   2.58,   2.71,  -5.14, 
+      5.66,    5.36,  -2.70,   4.35,  -7.26,
+      5.97,   -4.44,   0.27,  -7.17,   6.08,
+      8.23,    1.08,   9.04,   2.14,  -6.87
+    ]);
+    var b = new Float64Array([
+      4.02,   -1.56,   9.81,
+      6.19,    4.00,  -4.09,
+      -8.22,  -8.67,  -4.57,
+      -7.57,   1.75,  -8.61,
+      -3.03,   2.86,   8.99
+    ]);
+    var ans = new Float64Array([
+      -0.80,  -0.39,   0.96,
+      -0.70,  -0.55,   0.22,
+      0.59,    0.84,   1.90,
+      1.32,   -0.10,   5.36,
+      0.57,    0.11,   4.04
+    ]);
+    var a_copy = new Float64Array(a);
+    var b_copy = new Float64Array(b);
+
+    var af = new Float64Array(a);
+    var ipiv = new Int32Array(5);
+
+    var af_check = new Float64Array(a);
+    var ipiv_check = new Int32Array(5);
+    var res = nblas.getrf(af_check, ipiv_check, 5, 5);
+    assert.equal(res, 0);
+
+    var x = new Float64Array(5*3);
+    var res = nblas.gesvx(a, b, x, 5, 3, af, ipiv, nblas.Lapack.Fact.N);
+    assert.equal(res, 0);
+    x = x.map(el => el.toFixed(2) );
+    assert.deepEqual(x, ans);
+    assert.deepEqual(a, a_copy);
+    assert.deepEqual(b, b_copy);
+    assert.deepEqual(af, af_check);
+    assert.deepEqual(ipiv, ipiv_check);
+  });
+  
 
   //
   // SPBLAS

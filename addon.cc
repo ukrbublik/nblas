@@ -81,6 +81,10 @@ void Init(v8::Local<v8::Object> exports) {
   // LAPACK
   NODE_SET_METHOD(exports, "dgesv", dgesv);
   NODE_SET_METHOD(exports, "sgesv", sgesv);
+  NODE_SET_METHOD(exports, "dgesvx", dgesvx);
+  NODE_SET_METHOD(exports, "sgesvx", sgesvx);
+  NODE_SET_METHOD(exports, "dgetrf", dgetrf);
+  NODE_SET_METHOD(exports, "sgetrf", sgetrf);
 
   // SPBLAS Creation
   NODE_SET_METHOD(exports, "duscr_begin", duscr_begin);

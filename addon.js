@@ -68,6 +68,26 @@
     blas_valid_handle   : 264
   };
 
+  // for lapack
+  nblas.Lapack = {
+    Fact: {
+      N: 0,
+      F: 1,
+      E: 2,
+    },
+    Trans: {
+      N: 0,
+      T: 1,
+      C: 2,
+    },
+    Equed: {
+      N: 0,
+      R: 1,
+      C: 2,
+      B: 3,
+    },
+  };
+
 
   // enforce strict type checking
   function typeCheck(array) {
@@ -367,18 +387,61 @@
       nblas.strsm(side, uplo, transa, diag, m, n, alpha, a, m, b, m);
   };
 
+
   // LAPACK
   // http://physics.oregonstate.edu/~landaur/nacphy/lapack/simple.html
   // https://software.intel.com/ru-ru/node/468874
 
   // A [m,m] * x [m,n] = B [m,n]
-  nblas.gesv = function (A, B, m, n) {
+  nblas.gesv = function (A, B, m, n, ipiv) {
+    var type = A.constructor;
+    if (ipiv === undefined)
+      ipiv = new type(m);
     assert(A.length >= m*m);
     assert(B.length >= m*n);
+    assert(ipiv.length == m);
+
     return typeCheck(A) ?
-      nblas.dgesv(m, n, A, B) :
-      nblas.sgesv(m, n, A, B);
+      nblas.dgesv(m, n, A, B, ipiv) :
+      nblas.sgesv(m, n, A, B, ipiv);
   };
+
+  nblas.gesvx = function (A, B, X, m, n, AF, IPIV, fact, trans, equed, R, C) {
+    var type = A.constructor;
+    fact = fact || nblas.Lapack.Fact.N;
+    trans = trans || nblas.Lapack.Trans.N;
+    equed = equed || nblas.Lapack.Equed.N;
+    if (R === undefined)
+      R = new type(m);
+    if (C === undefined)
+      C = new type(m);
+    if (IPIV === undefined && fact == nblas.Lapack.Fact.N)
+      IPIV = new Int32Array(m);
+    if (AF === undefined && fact == nblas.Lapack.Fact.N)
+      AF = new type(m*m);
+
+    assert(A.length >= m*m);
+    assert(B.length >= m*n);
+    assert(X.length >= m*n);
+    assert(AF.length >= m*m);
+    assert(IPIV.length >= 1*m);
+    assert(R.length >= 1*m);
+    assert(C.length >= 1*m);
+
+    return typeCheck(A) ?
+      nblas.dgesvx(fact, trans, m, n, A, AF, IPIV, equed, R, C, B, X) :
+      nblas.sgesvx(fact, trans, m, n, A, AF, IPIV, equed, R, C, B, X);
+  };
+
+  nblas.getrf = function (A, IPIV, m, n) {
+    assert(A.length >= m*n);
+    assert(IPIV.length >= Math.min(m,n));
+
+    return typeCheck(A) ?
+      nblas.dgetrf(m, n, A, IPIV) :
+      nblas.sgetrf(m, n, A, IPIV);
+  }
+
 
   // SPBLAS
   // http://math.nist.gov/spblas/
