@@ -61,7 +61,9 @@ API
   - [x] [`?trsm (a, b, m, n, [diag = nblas.NonUnit], [uplo = nblas.Upper], [transa = 111], [diag = nblas.NonUnit], [alpha = 1.0])`](https://software.intel.com/node/ce40548f-549d-4af8-9668-b63b28c8c63f#CE40548F-549D-4AF8-9668-B63B28C8C63F)
 
 - **[LAPACK Routines](https://software.intel.com/ru-ru/node/468874)** (**[list of routines](http://physics.oregonstate.edu/~landaur/nacphy/lapack/simple.html)**)
-  - [x] [`?gesv (A, B, m, n)`] (https://software.intel.com/ru-ru/node/468876) A [m,m] * x [m,n] = B [m,n], solution out in B
+  - [x] [`?gesv (A, B, m, n, [ipiv])`] (https://software.intel.com/ru-ru/node/468876) 
+  - [x] [`?gesvx (A, B, X, m, n, [AF], [IPIV], [fact = nblas.Lapack.Fact.N], [trans = nblas.Lapack.Trans.N], [equed = nblas.Lapack.Equed.N], [R], [C])`] (https://software.intel.com/ru-ru/node/468878) 
+  - [x] [`?getrf (A, IPIV, m, n)`] (https://software.intel.com/ru-ru/node/468682) 
   - [ ] others ... todo?
 
 - **[SPBLAS](http://math.nist.gov/spblas/)** (**[doc1](http://www.cerfacs.fr/algor/reports/2001/TR_PA_01_24.pdf)**, **[doc2](http://www.netlib.org/blas/blast-forum/chapter3.pdf)**)
@@ -115,28 +117,43 @@ API
     
   - **Sparse matrix properties**
     - **nblas.SymmetryType.**
-      - `blas_general`
-      - `blas_symmetric`
-      - `blas_hermitian`
-      - `blas_triangular`
-      - `blas_lower_triangular`
-      - `blas_upper_triangular`
-      - `blas_lower_symmetric`
-      - `blas_upper_symmetric`
-      - `blas_lower_hermitian`
-      - `blas_upper_hermitian`
+      - `.blas_general`
+      - `.blas_symmetric`
+      - `.blas_hermitian`
+      - `.blas_triangular`
+      - `.blas_lower_triangular`
+      - `.blas_upper_triangular`
+      - `.blas_lower_symmetric`
+      - `.blas_upper_symmetric`
+      - `.blas_lower_hermitian`
+      - `.blas_upper_hermitian`
     - **nblas.FieldType.**
-      - `blas_double_precision`
-      - `blas_single_precision`
+      - `.blas_double_precision`
+      - `.blas_single_precision`
     - **nblas.SizeType.**
-      - `blas_num_rows`
-      - `blas_num_cols`
-      - `blas_num_nonzeros`
+      - `.blas_num_rows`
+      - `.blas_num_cols`
+      - `.blas_num_nonzeros`
     - **nblas.HandleType.**
-      - `blas_invalid_handle`
-      - `blas_new_handle`
-      - `blas_open_handle`
-      - `blas_valid_handle`
+      - `.blas_invalid_handle`
+      - `.blas_new_handle`
+      - `.blas_open_handle`
+      - `.blas_valid_handle`
+      
+  - **For LAPACK**
+    - **nblas.Lapack.Fact.**
+      - `.N (default)`
+      - `.F`
+      - `.E`
+    - **nblas.Lapack.Trans.**
+      - `.N (default)`
+      - `.T`
+      - `.C`
+    - **nblas.Lapack.Equed.**
+      - `.N (default)`
+      - `.R`
+      - `.C`
+      - `.B`
 
 Double precision functions expect `Float64Array` vectors, single precision functions expect `Float32Array` vectors.
 
