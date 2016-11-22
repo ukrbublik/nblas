@@ -142,6 +142,7 @@ void Init(v8::Local<v8::Object> exports) {
   NODE_SET_METHOD(exports, "sTrTo", sTrTo);
   NODE_SET_METHOD(exports, "dTrIp", dTrIp);
   NODE_SET_METHOD(exports, "sTrIp", sTrIp);
+  NODE_SET_METHOD(exports, "BufCopy", BufCopy);
 }
 
 NODE_MODULE(addon, Init)

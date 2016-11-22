@@ -167,5 +167,6 @@ void dTrTo(const v8::FunctionCallbackInfo<v8::Value>& info);
 void sTrTo(const v8::FunctionCallbackInfo<v8::Value>& info);
 void dTrIp(const v8::FunctionCallbackInfo<v8::Value>& info);
 void sTrIp(const v8::FunctionCallbackInfo<v8::Value>& info);
+void BufCopy(const v8::FunctionCallbackInfo<v8::Value>& info);
 
 #endif

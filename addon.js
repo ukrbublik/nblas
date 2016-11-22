@@ -626,6 +626,7 @@
       nblas.dTrIp(m, n, a) :
       nblas.sTrIp(m, n, a);
   };
+  //nblas.BufCopy(dst, src, bytes)
 
 
   module.exports = nblas;

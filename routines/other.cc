@@ -14,6 +14,7 @@ void dTrTo(const v8::FunctionCallbackInfo<v8::Value>& info) {
 		}
 	}
 }
+
 void sTrTo(const v8::FunctionCallbackInfo<v8::Value>& info) {
 	int r = info[0]->Int32Value();
 	int c = info[1]->Int32Value();
@@ -42,6 +43,7 @@ void dTrIp(const v8::FunctionCallbackInfo<v8::Value>& info) {
 	}
 	delete b;
 }
+
 void sTrIp(const v8::FunctionCallbackInfo<v8::Value>& info) {
 	int r = info[0]->Int32Value();
 	int c = info[1]->Int32Value();
@@ -55,4 +57,13 @@ void sTrIp(const v8::FunctionCallbackInfo<v8::Value>& info) {
 		}
 	}
 	delete b;
+}
+
+
+//memcpy
+void BufCopy(const v8::FunctionCallbackInfo<v8::Value>& info) {
+	void *dst = reinterpret_cast<void*>(GET_CONTENTS(info[0].As<v8::Int8Array>()));
+	void *src = reinterpret_cast<void*>(GET_CONTENTS(info[1].As<v8::Int8Array>()));
+	int bytes = info[2]->Int32Value();
+	memcpy(dst, src, bytes);
 }
