@@ -331,7 +331,7 @@
     alpha = alpha || 1.0;
     beta = beta || 0.0;
     var lda = (transa == nblas.NoTrans ? k : m);
-    var ldb = (transa == nblas.NoTrans ? n : k);
+    var ldb = (transb == nblas.NoTrans ? n : k);
     var ldc = n;
     return typeCheck(a) ?
       nblas.dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) :
