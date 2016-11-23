@@ -330,9 +330,12 @@
     transb = transb || nblas.NoTrans;
     alpha = alpha || 1.0;
     beta = beta || 0.0;
+    var lda = (transa == nblas.NoTrans ? k : m);
+    var ldb = (transa == nblas.NoTrans ? n : k);
+    var ldc = n;
     return typeCheck(a) ?
-      nblas.dgemm(transa, transb, m, n, k, alpha, a, k, b, n, beta, c, n) :
-      nblas.sgemm(transa, transb, m, n, k, alpha, a, k, b, n, beta, c, n);
+      nblas.dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) :
+      nblas.sgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc);
   };
 
   nblas.symm = function (a, b, c, m, n, side, uplo, alpha, beta) {
@@ -350,9 +353,11 @@
     trans = trans || nblas.NoTrans;
     alpha = alpha || 1.0;
     beta = beta || 0.0;
+    var lda = (trans == nblas.NoTrans ? n : k);
+    var ldc = n;
     return typeCheck(a) ?
-      nblas.dsyrk(uplo, trans, n, k, alpha, a, n, beta, c, n) :
-      nblas.ssyrk(uplo, trans, n, k, alpha, a, n, beta, c, n);
+      nblas.dsyrk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc) :
+      nblas.ssyrk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc);
   };
 
   nblas.syr2k = function (a, b, c, n, k, uplo, trans, alpha, beta) {
@@ -360,9 +365,12 @@
     trans = trans || nblas.NoTrans;
     alpha = alpha || 1.0;
     beta = beta || 0.0;
+    var lda = (trans == nblas.NoTrans ? n : k);
+    var ldb = (trans == nblas.NoTrans ? n : k);
+    var ldc = n;
     return typeCheck(a) ?
-      nblas.dsyr2k(uplo, trans, n, k, alpha, a, n, b, n, beta, c, n) :
-      nblas.ssyr2k(uplo, trans, n, k, alpha, a, n, b, n, beta, c, n);
+      nblas.dsyr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc) :
+      nblas.ssyr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc);
   };
 
   nblas.trmm = function (a, b, m, n, side, uplo, transa, diag, alpha) {
@@ -371,9 +379,11 @@
     transa = transa || nblas.NoTrans;
     diag = diag || nblas.NonUnit;
     alpha = alpha || 1.0;
+    var lda = m;
+    var ldb = m;
     return typeCheck(a) ?
-      nblas.dtrmm(side, uplo, transa, diag, m, n, alpha, a, m, b, m) :
-      nblas.strmm(side, uplo, transa, diag, m, n, alpha, a, m, b, m);
+      nblas.dtrmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) :
+      nblas.strmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb);
   };
 
   nblas.trsm = function (a, b, m, n, side, uplo, transa, diag, alpha) {
@@ -382,9 +392,11 @@
     transa = transa || nblas.NoTrans;
     diag = diag || nblas.NonUnit;
     alpha = alpha || 1.0;
+    var lda = m;
+    var ldb = m;
     return typeCheck(a) ?
-      nblas.dtrsm(side, uplo, transa, diag, m, n, alpha, a, m, b, m) :
-      nblas.strsm(side, uplo, transa, diag, m, n, alpha, a, m, b, m);
+      nblas.dtrsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) :
+      nblas.strsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb);
   };
 
 
