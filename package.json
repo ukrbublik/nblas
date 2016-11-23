@@ -1,6 +1,6 @@
 {
   "name": "nblas-plus",
-  "version": "1.2.12",
+  "version": "1.2.13",
   "description": "C++ bindings for all single- and double-precision CBLAS (Basic Linear Algebra Subprograms), SPBLAS (Sparse BLAS), LAPACK.",
   "main": "./addon.js",
   "scripts": {
