@@ -143,6 +143,11 @@ void Init(v8::Local<v8::Object> exports) {
   NODE_SET_METHOD(exports, "dTrIp", dTrIp);
   NODE_SET_METHOD(exports, "sTrIp", sTrIp);
   NODE_SET_METHOD(exports, "BufCopy", BufCopy);
+  NODE_SET_METHOD(exports, "BufSet", BufSet);
+  NODE_SET_METHOD(exports, "dMatrixDiagonal", dMatrixDiagonal);
+  NODE_SET_METHOD(exports, "sMatrixDiagonal", sMatrixDiagonal);
+  NODE_SET_METHOD(exports, "dMatrixOnes", dMatrixOnes);
+  NODE_SET_METHOD(exports, "sMatrixOnes", sMatrixOnes);
 }
 
 NODE_MODULE(addon, Init)

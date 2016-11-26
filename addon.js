@@ -638,7 +638,22 @@
       nblas.dTrIp(m, n, a) :
       nblas.sTrIp(m, n, a);
   };
-  //nblas.BufCopy(dst, src, bytes)
+  nblas.MatrixDiagonal = function(a, m, n, val) {
+    if (val === undefined)
+      val = 1.;
+    return typeCheck(a) ?
+      nblas.dMatrixDiagonal(m, n, a, val) :
+      nblas.sMatrixDiagonal(m, n, a, val);
+  };
+  nblas.MatrixOnes = function(a, m, n, val) {
+    if (val === undefined)
+      val = 1.;
+    return typeCheck(a) ?
+      nblas.dMatrixOnes(m, n, a, val) :
+      nblas.sMatrixOnes(m, n, a, val);
+  };
+  //nblas.BufCopy(dst, dstOffsetBytes, src, srcOffsetBytes, bytes)
+  //nblas.BufSet(dst, dstOffsetBytes, val, bytes)
 
 
   module.exports = nblas;

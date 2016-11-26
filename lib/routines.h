@@ -168,5 +168,10 @@ void sTrTo(const v8::FunctionCallbackInfo<v8::Value>& info);
 void dTrIp(const v8::FunctionCallbackInfo<v8::Value>& info);
 void sTrIp(const v8::FunctionCallbackInfo<v8::Value>& info);
 void BufCopy(const v8::FunctionCallbackInfo<v8::Value>& info);
+void BufSet(const v8::FunctionCallbackInfo<v8::Value>& info);
+void dMatrixDiagonal(const v8::FunctionCallbackInfo<v8::Value>& info);
+void sMatrixDiagonal(const v8::FunctionCallbackInfo<v8::Value>& info);
+void dMatrixOnes(const v8::FunctionCallbackInfo<v8::Value>& info);
+void sMatrixOnes(const v8::FunctionCallbackInfo<v8::Value>& info);
 
 #endif
