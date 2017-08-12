@@ -3,20 +3,33 @@
 Node `>=4.0` C++ bindings for all single- and double-precision CBLAS (Basic Linear Algebra Subprograms) and SPBLAS (Sparse BLAS) routines. Also LAPACK routines (for now only solve general system of linear equations AX=B).
 
 
+Preinstall
+---
+**LINUX:**
+```bash
+$ cd preinstall
+$ sh debian.sh
+```
+Tested on Ubuntu 16
+
+**OSX:**
+```bash
+$ cd preinstall
+$ sh osx.sh
+```
+Tested on OSX ElCapitan
+
+**WIN:**
+Not tested.
+
+
 Install
 ---
 ```bash
 $ npm install nblas-plus
 $ npm test
 ```
-Works out of the box with OSX since CBLAS is included in the standard Accelerate framework. <br>
-You might have to download and build [LAPACK](http://www.netlib.org/lapack/#_lapack_version_3_6_0) from source on other operating systems<br>
-**LINUX:**
-```bash
-$ sudo apt-get install libblas-dev
-$ sudo apt-get install libgsl0-dev
-$ sudo apt-get install liblapacke-dev
-```
+
 
 API
 ---
