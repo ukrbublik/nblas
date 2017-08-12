@@ -21,4 +21,7 @@ else
 	cd lapack-3.6.1/
 	cmake -DCMAKE_INSTALL_PREFIX=/usr -DLAPACKE=ON -DCBLAS=ON -DBUILD_SHARED_LIBS=ON  .
 	sudo make install -j2
+	cd ..
+	rm ./lapack-3.6.1.tgz
+	rm -rf ./lapack-3.6.1
 fi
