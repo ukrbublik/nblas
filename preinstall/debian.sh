@@ -1,16 +1,16 @@
 echo "*** Installing packets"
-sudo apt-get install g++-4.8
-sudo apt-get install gcc-4.8
-sudo apt-get install cmake
-sudo apt-get install cmake-data
-sudo apt-get install clang
-sudo apt-get install gfortran
-sudo apt-get install libgsl0-dev
-sudo apt-get install libblas*
-sudo apt-get install liblapack*
+sudo apt-get install -qq g++-4.8
+sudo apt-get install -qq gcc-4.8
+sudo apt-get install -qq cmake
+sudo apt-get install -qq cmake-data
+sudo apt-get install -qq clang
+sudo apt-get install -qq gfortran
+sudo apt-get install -qq libgsl0-dev
+sudo apt-get install -qq libblas*
+sudo apt-get install -qq liblapack*
 
 #sudo apt-get install liblapacke-dev
-if [ -f "/usr/lib/liblapack.3.6.1.dylib" ]; then
+if [ -f "/usr/lib/x86_64-linux-gnu/liblapack.so.3.6.1" ]; then
 	echo "*** lapacke is already installed"
 else
 	echo "*** Installing lapacke"
