@@ -5,7 +5,7 @@
   "main": "./addon.js",
   "scripts": {
     "test": "mocha",
-    "install": "node-gyp configure && node-gyp rebuild"
+    "install": "CXX=g++-4.8 node-gyp configure && CXX=g++-4.8 node-gyp rebuild"
   },
   "repository": {
     "type": "git",

@@ -54,6 +54,9 @@
       ],
       "libraries": [
         "-lm -lblas -llapacke -lgsl -lgslcblas"
+      ],
+      "defines": [
+        "CXX=g++-4.8"
       ]
     }
   ]
