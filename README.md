@@ -22,6 +22,8 @@ Tested on OSX ElCapitan
 **WIN:**
 Not tested.
 
+https://icl.cs.utk.edu/lapack-for-windows/
+
 
 Install
 ---
