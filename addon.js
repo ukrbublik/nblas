@@ -645,12 +645,12 @@
       nblas.dMatrixDiagonal(m, n, a, val) :
       nblas.sMatrixDiagonal(m, n, a, val);
   };
-  nblas.MatrixOnes = function(a, m, n, val) {
+  nblas.MatrixFill = nblas.MatrixOnes = function(a, m, n, val) {
     if (val === undefined)
       val = 1.;
     return typeCheck(a) ?
-      nblas.dMatrixOnes(m, n, a, val) :
-      nblas.sMatrixOnes(m, n, a, val);
+      nblas.dMatrixFill(m, n, a, val) :
+      nblas.sMatrixFill(m, n, a, val);
   };
   //nblas.BufCopy(dst, dstOffsetBytes, src, srcOffsetBytes, bytes)
   //nblas.BufSet(dst, dstOffsetBytes, val, bytes)

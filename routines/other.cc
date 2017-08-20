@@ -106,8 +106,8 @@ void sMatrixDiagonal(const v8::FunctionCallbackInfo<v8::Value>& info) {
 	}
 }
 
-// matrix of ones
-void dMatrixOnes(const v8::FunctionCallbackInfo<v8::Value>& info) {
+// matrix of ones or other number
+void dMatrixFill(const v8::FunctionCallbackInfo<v8::Value>& info) {
 	int r = info[0]->Int32Value();
 	int c = info[1]->Int32Value();
 	double *a = reinterpret_cast<double*>(GET_CONTENTS(info[2].As<v8::Float64Array>()));
@@ -118,7 +118,7 @@ void dMatrixOnes(const v8::FunctionCallbackInfo<v8::Value>& info) {
 		a[i] = val;
 	}
 }
-void sMatrixOnes(const v8::FunctionCallbackInfo<v8::Value>& info) {
+void sMatrixFill(const v8::FunctionCallbackInfo<v8::Value>& info) {
 	int r = info[0]->Int32Value();
 	int c = info[1]->Int32Value();
 	float *a = reinterpret_cast<float*>(GET_CONTENTS(info[2].As<v8::Float32Array>()));
