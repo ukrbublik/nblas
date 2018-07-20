@@ -10,17 +10,20 @@ sudo apt-get install -qq libblas*
 sudo apt-get install -qq liblapack*
 
 #sudo apt-get install liblapacke-dev
-if [ -f "/usr/lib/x86_64-linux-gnu/liblapack.so.3.6.1" ]; then
-	echo "*** lapacke is already installed"
+if [ -f "/usr/lib/x86_64-linux-gnu/liblapack.so.3.8.0" ]; then
+  echo "*** lapacke is already installed"
 else
-	echo "*** Installing lapacke"
-	wget http://www.netlib.org/lapack/lapack-3.6.1.tgz
-	tar xf lapack-3.6.1.tgz
-	cd lapack-3.6.1/
-	cmake -DCMAKE_INSTALL_PREFIX=/usr -DLAPACKE=ON -DCBLAS=ON -DBUILD_SHARED_LIBS=ON  .
-	sudo make install -j2
-	cd ..
-	rm ./lapack-3.6.1.tgz
-	rm -rf ./lapack-3.6.1
+  echo "*** Installing lapacke"
+  wget http://www.netlib.org/lapack/lapack-3.8.0.tar.gz
+  tar xf lapack-3.8.0.tar.gz
+  mv ./lapack-3.8.0 ./lapack
+  mkdir lapack-build
+  cd lapack-build/
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DLAPACKE=ON -DCBLAS=ON -DBUILD_SHARED_LIBS=ON  ../lapack
+  sudo make install -j2
+  cd ..
+  rm ./lapack-3.8.0.tar.gz
+  rm -rf ./lapack
+  rm -rf ./lapack-build
 fi
 

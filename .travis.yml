@@ -6,13 +6,18 @@ before_install:
   - sudo apt-get install liblapack*
   - sudo apt-get install libgsl0-dev
 #  - sudo apt-get install liblapacke-dev
-  - wget http://www.netlib.org/lapack/lapack-3.6.1.tgz
-  - tar xf lapack-3.6.1.tgz
-  - cd lapack-3.6.1/
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DLAPACKE=ON -DCBLAS=ON -DBUILD_SHARED_LIBS=ON  .
+  - wget http://www.netlib.org/lapack/lapack-3.8.0.tar.gz
+  - tar xf lapack-3.8.0.tar.gz
+  - mv ./lapack-3.8.0 ./lapack
+  - mkdir lapack-build
+  - cd lapack-build/
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DLAPACKE=ON -DCBLAS=ON -DBUILD_SHARED_LIBS=ON  ../lapack
 #  - sudo make install -j2 && ctest -j2 --output-on-failure --timeout 100
   - sudo make install -j2
   - cd ..
+#  - rm ./lapack-3.8.0.tar.gz
+#  - rm -rf ./lapack
+#  - rm -rf ./lapack-build
 #  - export LD_LIBRARY_PATH=~/.local/lib/:${LD_LIBRARY_PATH}
 #  - export CPATH=~/.local/include/:${CPATH}
 install:
